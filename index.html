@@ -5,17 +5,43 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>体温单</title>
-  <style>
-    html, body {
-      padding: 0;
-      margin: 0;
-    }
-    #canvas {
-      border: 1px solid #000;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body onload="drawBill()">
+<body>
+  <div class="A4">
+    <div class="content">
+      <div class="title">xxxx医院体温单</div>
+      <div class="head-form">
+        <div class="item">
+          <div class="label">姓名</div>
+          <div class="value">张三</div>
+        </div>
+        <div class="item">
+          <div class="label">年龄</div>
+          <div class="value">25</div>
+        </div>
+        <div class="item">
+          <div class="label">科别</div>
+          <div class="value">骨科</div>
+        </div>
+        <div class="item">
+          <div class="label">床号</div>
+          <div class="value">001</div>
+        </div>
+        <div class="item">
+          <div class="label">住院病历号</div>
+          <div class="value">123456</div>
+        </div>
+      </div>
+      <div class="head-table"></div>
+      <div class="main">
+        <div class="side-axis"></div>
+        <canvas id="canvas1"></canvas>
+      </div>
+      <div class="foot-table"></div>
+      <div class="pagination"></div>
+    </div>
+  </div>
   <canvas id="canvas"></canvas>
   <script src="index.js"></script>
 </body>

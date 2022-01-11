@@ -1,0 +1,48 @@
+html, body {
+  padding: 0;
+  margin: 0;
+  font-size: 12px;
+}
+#canvas {
+  border: 1px solid #000;
+}
+body {
+  height: 400mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.A4 {
+  width: 210mm;
+  height: 297mm;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #666;
+}
+.content {
+  box-sizing: border-box;
+  width: 720px; /* 720px = 48 * 15 */
+  height: 281mm;
+  background-color: #eee;
+}
+.title {
+  text-align: center;
+  font-size: 26px;
+  margin-bottom: 4px;
+}
+.head-form {
+  width: 100%;
+  line-height: 30px;
+  background-color: antiquewhite;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.head-form .item {
+  display: flex;
+  margin: 0 10px;
+}
+.head-form .item .label::after{
+  content: '：';
+}

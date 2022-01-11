@@ -1,3 +1,4 @@
+
 const numberToWord = ['零','一','二','三','四','五','六','七','八','九']
 const inTimeArea = {
   '00': 5, '01': 5, '02': 0, '03': 0,
@@ -44,9 +45,10 @@ let timeHeight = squareWidth * 2
 let middleStartHeight = tableTop + topRowHeight * topRowNum + timeHeight
 let bottomStartHeight = middleStartHeight + squareWidth * midRow
 let leftStartWidth = leftRightInterval + squareWidth * 6
-
+let canvas = document.getElementById('canvas')
+console.log(canvas);
+drawBill()
 function drawBill () {
-  let canvas = document.getElementById('canvas')
   console.log(canvas.width);
   canvas.width = 900 / billScale
   canvas.height= 1124.52 / billScale
