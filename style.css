@@ -43,6 +43,9 @@ body {
   display: flex;
   margin: 0 10px;
 }
+.head-form .item .label {
+  font-weight: bold;
+}
 .head-form .item .label::after{
   content: '：';
 }
