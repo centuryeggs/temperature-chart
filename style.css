@@ -3,11 +3,13 @@ html, body {
   margin: 0;
   font-size: 12px;
 }
+* {
+  box-sizing: border-box;
+}
 #canvas {
   border: 1px solid #000;
 }
 body {
-  height: 400mm;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -18,13 +20,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #666;
+  background-color: #eee;
 }
 .content {
-  box-sizing: border-box;
-  width: 720px; /* 720px = 48 * 15 */
+  width: 724px; /* 720px = 48 * 15 + 4 */
   height: 281mm;
-  background-color: #eee;
+  background-color: #fff;
 }
 .title {
   text-align: center;
@@ -34,7 +35,6 @@ body {
 .head-form {
   width: 100%;
   line-height: 30px;
-  background-color: antiquewhite;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -48,4 +48,32 @@ body {
 }
 .head-form .item .label::after{
   content: '：';
+}
+.table {
+  border: 2px solid #000;
+}
+.row {
+  display: flex;
+  border-bottom: 1px solid #000;
+}
+.row:last-child {
+  border-bottom: none;
+}
+.cell {
+  width: 90px;
+  min-height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-right: 2px solid #000;
+}
+.row .cell:last-child {
+  border-right: none;
+}
+.values {
+  display: flex;
+}
+.pagination {
+  margin-top: 10px;
+  text-align: center;
 }
