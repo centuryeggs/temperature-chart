@@ -46,22 +46,14 @@ let middleStartHeight = tableTop + topRowHeight * topRowNum + timeHeight
 let bottomStartHeight = middleStartHeight + squareWidth * midRow
 let leftStartWidth = leftRightInterval + squareWidth * 6
 let canvas = document.getElementById('canvas')
-console.log(canvas);
 drawBill()
 function drawBill () {
-  console.log(canvas.width);
-  canvas.width = 900 / billScale
-  canvas.height= 1124.52 / billScale
+  canvas.style.width = "900px"
+  canvas.style.height = Math.floor(1124.52) + "px"
+  canvas.width = Math.floor(900 * billScale);
+  canvas.height = Math.floor(1124.52 * billScale);
   let ctx = canvas.getContext('2d')
-  // ctx.font = "20px Times New Roman";
-  // ctx.fillStyle = "Black";
-  // ctx.fillText("Sample String", 5, 30);
-  // ctx.beginPath();
-  // ctx.moveTo(75, 50);
-  // ctx.lineTo(100, 75);
-  // ctx.lineTo(100, 25);
-  // ctx.fill();
-  // return
+  ctx.scale(billScale, billScale)
   // 副标题
   drawWord(ctx, '体       温       单', '30', 350, 90, '#666')
   // 标题
