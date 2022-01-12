@@ -73,6 +73,26 @@ body {
 .values {
   display: flex;
 }
+.values.x-axis .cell div {
+  flex: 1;
+  text-align: center;
+}
+.values.x-axis .cell .am {
+  border-right: 1px solid #000;
+}
+.values.x-axis .cell .text {
+  border-bottom: 1px solid #000;
+}
+.time-points {
+  display: flex;
+}
+.time-points > div {
+  flex: 1;
+  border-right: 1px solid #000;
+}
+.time-points > div:last-child {
+  border-right: none;
+}
 .pagination {
   margin-top: 10px;
   text-align: center;
