@@ -18,10 +18,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #eee;
-}
-#canvas {
-  transform: scale(0.96);
 }
 @media print {
   body { display: block; }
@@ -82,49 +78,74 @@ body {
 .values {
   display: flex;
 }
-.values.x-axis .cell div {
-  flex: 1;
+.values.x-axis {
+  flex-direction: column;
+}
+.up, .down {
+  width: 100%;
+  display: flex;
   text-align: center;
 }
-.values.x-axis .cell .am {
-  border-right: 1px solid #000;
-}
-.values.x-axis .cell .text {
+.up {
   border-bottom: 1px solid #000;
 }
-.time-points {
-  display: flex;
-}
-.time-points > div {
-  flex: 1;
+.up div {
+  width: 45px;
   border-right: 1px solid #000;
 }
-.time-points > div:last-child {
+.up div:nth-child(2n) {
+  border-right: 2px solid #000;
+}
+.up div:last-child {
   border-right: none;
 }
+.down div {
+  width: 15px;
+  border-right: 1px solid #000;
+}
+.down div:nth-child(6n) {
+  border-right: 2px solid #000;
+}
+.down div:last-child {
+  border-right: none;
+}
+.cell.y-axis {
+  position: relative;
+}
 .icons {
-  align-self: end;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 .pulse {
+  flex: 1;
   height: 100%;
   border-right: 1px solid #000;
-  text-align: center;
+  text-align: right;
   align-self: start;
   color: red;
   position: relative;
+  padding-right: 2px;
 }
 .temperature {
+  width: 30px;
   height: 100%;
-  text-align: center;
+  text-align: right;
   align-self: start;
-  color: blue;
   position: relative;
+  padding-right: 2px;
 }
 .axis-nums {
   position: absolute;
   top: 67.5px;
+  height: calc(100% - 135px);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-right: 2px;
 }
-
 .pagination {
   margin-top: 10px;
   text-align: center;

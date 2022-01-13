@@ -77,103 +77,23 @@
         <div class="row">
           <div class="label cell">时间</div>
           <div class="values x-axis">
-            <div class="cell">
-              <div class="am">
-                <div class="text">上午</div>
-                <div class="time-points">
-                  <div>4</div><div>8</div><div>12</div>
-                </div>
-              </div>
-              <div class="pm">
-                <div class="text">下午</div>
-                <div class="time-points">
-                  <div>16</div><div>20</div><div>24</div>
-                </div>
-              </div>
+            <div class="up">
+              <div>上午</div><div>下午</div>
+              <div>上午</div><div>下午</div>
+              <div>上午</div><div>下午</div>
+              <div>上午</div><div>下午</div>
+              <div>上午</div><div>下午</div>
+              <div>上午</div><div>下午</div>
+              <div>上午</div><div>下午</div>
             </div>
-            <div class="cell">
-              <div class="am">
-                <div class="text">上午</div>
-                <div class="time-points">
-                  <div>4</div><div>8</div><div>12</div>
-                </div>
-              </div>
-              <div class="pm">
-                <div class="text">下午</div>
-                <div class="time-points">
-                  <div>16</div><div>20</div><div>24</div>
-                </div>
-              </div>
-            </div>
-            <div class="cell">
-              <div class="am">
-                <div class="text">上午</div>
-                <div class="time-points">
-                  <div>4</div><div>8</div><div>12</div>
-                </div>
-              </div>
-              <div class="pm">
-                <div class="text">下午</div>
-                <div class="time-points">
-                  <div>16</div><div>20</div><div>24</div>
-                </div>
-              </div>
-            </div>
-            <div class="cell">
-              <div class="am">
-                <div class="text">上午</div>
-                <div class="time-points">
-                  <div>4</div><div>8</div><div>12</div>
-                </div>
-              </div>
-              <div class="pm">
-                <div class="text">下午</div>
-                <div class="time-points">
-                  <div>16</div><div>20</div><div>24</div>
-                </div>
-              </div>
-            </div>
-            <div class="cell">
-              <div class="am">
-                <div class="text">上午</div>
-                <div class="time-points">
-                  <div>4</div><div>8</div><div>12</div>
-                </div>
-              </div>
-              <div class="pm">
-                <div class="text">下午</div>
-                <div class="time-points">
-                  <div>16</div><div>20</div><div>24</div>
-                </div>
-              </div>
-            </div>
-            <div class="cell">
-              <div class="am">
-                <div class="text">上午</div>
-                <div class="time-points">
-                  <div>4</div><div>8</div><div>12</div>
-                </div>
-              </div>
-              <div class="pm">
-                <div class="text">下午</div>
-                <div class="time-points">
-                  <div>16</div><div>20</div><div>24</div>
-                </div>
-              </div>
-            </div>
-            <div class="cell">
-              <div class="am">
-                <div class="text">上午</div>
-                <div class="time-points">
-                  <div>4</div><div>8</div><div>12</div>
-                </div>
-              </div>
-              <div class="pm">
-                <div class="text">下午</div>
-                <div class="time-points">
-                  <div>16</div><div>20</div><div>24</div>
-                </div>
-              </div>
+            <div class="down">
+              <div>4</div><div>8</div><div>12</div><div>16</div><div>20</div><div>24</div>
+              <div>4</div><div>8</div><div>12</div><div>16</div><div>20</div><div>24</div>
+              <div>4</div><div>8</div><div>12</div><div>16</div><div>20</div><div>24</div>
+              <div>4</div><div>8</div><div>12</div><div>16</div><div>20</div><div>24</div>
+              <div>4</div><div>8</div><div>12</div><div>16</div><div>20</div><div>24</div>
+              <div>4</div><div>8</div><div>12</div><div>16</div><div>20</div><div>24</div>
+              <div>4</div><div>8</div><div>12</div><div>16</div><div>20</div><div>24</div>
             </div>
           </div>
         </div>
@@ -197,6 +117,13 @@
                   <circle r="3.8" cx="5" cy="5" fill="#fff" />
                 </svg>
               </div>
+              <div class="icon">心率
+                <svg width="10" height="10">
+                  <circle r="5" cx="5" cy="5" />
+                  <circle r="5" cx="5" cy="5" fill="red" />
+                  <circle r="3.8" cx="5" cy="5" fill="#fff" />
+                </svg>
+              </div>
               <div class="icon">脉搏
                 <svg width="10" height="10">
                   <circle r="5" cx="5" cy="5" fill="red" />
@@ -204,7 +131,8 @@
               </div>
             </div>
             <div class="pulse">
-              <div>脉搏</div>
+              <div>P</div>
+              <div>(次/分)</div>
               <div class="axis-nums">
                 <div>160</div>
                 <div>140</div>
@@ -214,10 +142,10 @@
                 <div>60</div>
                 <div>40</div>
               </div>
-              
             </div>
             <div class="temperature">
-              <div>体温</div>
+              <div>T</div>
+              <div>(℃)</div>
               <div class="axis-nums">
                 <div>41</div>
                 <div>40</div>
@@ -231,7 +159,7 @@
             </div>
           </div>
           <div class="values">
-            <canvas width="630px" height="600px"></canvas>
+            <canvas id="canvas"></canvas>
           </div>
         </div>
         <div class="row">
@@ -346,7 +274,8 @@
       <div class="pagination">第 1 页</div>
     </div>
   </div>
-  <canvas id="canvas"></canvas>
-  <script src="index.js"></script>
+  <!-- <canvas id="old-canvas"></canvas>
+  <script src="index.js"></script> -->
+  <script src="draw.js"></script>
 </body>
 </html>
