@@ -2,12 +2,10 @@ html, body {
   padding: 0;
   margin: 0;
   font-size: 12px;
+  font-weight: 400;
 }
 * {
   box-sizing: border-box;
-}
-#canvas {
-  border: 1px solid #000;
 }
 body {
   display: flex;
@@ -21,6 +19,17 @@ body {
   justify-content: center;
   align-items: center;
   background-color: #eee;
+}
+#canvas {
+  transform: scale(0.96);
+}
+@media print {
+  body { display: block; }
+  .A4 {
+    page-break-after: always;
+    transform: scale(1.2);
+    transform-origin: 0 0;
+  }
 }
 .content {
   width: 724px; /* 720px = 48 * 15 + 4 */
@@ -43,7 +52,7 @@ body {
   display: flex;
   margin: 0 10px;
 }
-.head-form .item .label {
+.label {
   font-weight: bold;
 }
 .head-form .item .label::after{
@@ -93,6 +102,29 @@ body {
 .time-points > div:last-child {
   border-right: none;
 }
+.icons {
+  align-self: end;
+}
+.pulse {
+  height: 100%;
+  border-right: 1px solid #000;
+  text-align: center;
+  align-self: start;
+  color: red;
+  position: relative;
+}
+.temperature {
+  height: 100%;
+  text-align: center;
+  align-self: start;
+  color: blue;
+  position: relative;
+}
+.axis-nums {
+  position: absolute;
+  top: 67.5px;
+}
+
 .pagination {
   margin-top: 10px;
   text-align: center;

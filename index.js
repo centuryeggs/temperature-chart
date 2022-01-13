@@ -39,21 +39,26 @@ let bottomProp = [
   { name: '皮试', prop: '' },
   { name: '其它', prop: '' }
 ]
-let billScale = window.devicePixelRatio
+let billScale = window.devicePixelRatio * 1.5
 let adt = '2021-10-18 10:18:12'
 let timeHeight = squareWidth * 2
 let middleStartHeight = tableTop + topRowHeight * topRowNum + timeHeight
 let bottomStartHeight = middleStartHeight + squareWidth * midRow
 let leftStartWidth = leftRightInterval + squareWidth * 6
 let canvas = document.getElementById('canvas')
+canvas.style.width = "900px"
+canvas.style.height = "1250px"
+let ctx = canvas.getContext('2d')
+canvas.width = Math.floor(900 * billScale);
+canvas.height = Math.floor(1250 * billScale);
+ctx.scale(billScale, billScale)
+window.onresize = function (e) {
+  if (billScale !== window.devicePixelRatio) {
+    // window.location.reload()
+  }
+}
 drawBill()
 function drawBill () {
-  canvas.style.width = "900px"
-  canvas.style.height = Math.floor(1124.52) + "px"
-  canvas.width = Math.floor(900 * billScale);
-  canvas.height = Math.floor(1124.52 * billScale);
-  let ctx = canvas.getContext('2d')
-  ctx.scale(billScale, billScale)
   // 副标题
   drawWord(ctx, '体       温       单', '30', 350, 90, '#666')
   // 标题
