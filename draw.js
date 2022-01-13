@@ -13,7 +13,7 @@ const data = {
   ],
   mouthLineData: [[3,36.2], [9,36.5], [15, 36.3], [21,37.1], [27,37], [34,37.2], [40,36.9]],
   anusLineData: [[2,36.1], [8,36.4], [17, 36.3], [20,37.2], [26,37.4], [35,37.1], [41,37.4]],
-  pulseLineData: [[4,70],[11,72],[15,76],[21,60],[27,80],[35,70],[40,70]],
+  pulseLineData: [[4,40],[11,50],[15,60],[21,60],[27,80],[35,70],[40,160]],
   heartLineData: [[5,72],[10,73],[15,78],[19,69],[25,90],[33,87],[41,84]]
 }
 const mouthLineData = data.mouthLineData.map(i => {
@@ -25,6 +25,7 @@ const anusLineData = data.anusLineData.map(i => {
 const pulseLineData = data.pulseLineData.map(i => {
   return [timeToX(i[0]), frequencyToY(i[1])]
 })
+console.log(pulseLineData);
 const heartLineData = data.heartLineData.map(i => {
   return [timeToX(i[0]), frequencyToY(i[1])]
 })
@@ -42,7 +43,8 @@ window.onresize = function (e) {
   }
 }
 drawGrid(ctx)
-drawPolyline(ctx, mouthLineData, 'red')
+drawPolyline(ctx, mouthLineData, 'black')
+// drawPolyline(ctx, pulseLineData, 'red')
 // 绘制直线
 function drawLine (ctx, x1 = 0, y1 = 0, x2 = 0, y2 = 0, strokeStyle = 'black', lineWidth = 1) {
   ctx.beginPath()
@@ -83,15 +85,15 @@ function drawPolyline (ctx, data, color) {
 // 时间日期转化为x轴坐标
 function timeToX (time) {
   // 校验格式 YYYY-MM-DD HH:mm:ss
-
+  return time
 }
 
 // 温度转化为y轴坐标
-function temperatureToY (temp) {
-  
+function temperatureToY (temperature) {
+  return Math.floor(600 - (temperature - 34) * 75)
 }
 
 // 频率转化为y轴坐标
 function frequencyToY (frequency) {
-
+  return Math.floor(600 - (frequency - 20) * 75)
 }
