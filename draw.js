@@ -11,11 +11,45 @@ const data = {
     { label: '住院病历号', value: '123456' },
     { label: '入院日期', value: '2021-12-01' }
   ],
-  mouthLineData: [[3,36.2], [9,36.5], [15, 36.3], [21,37.1], [27,37], [34,37.2], [40,36.9]],
-  anusLineData: [[2,36.1], [8,36.4], [17, 36.3], [20,37.2], [26,37.4], [35,37.1], [41,37.4]],
-  pulseLineData: [[4,40],[11,50],[15,60],[21,60],[27,80],[35,70],[40,160]],
-  heartLineData: [[5,72],[10,73],[15,78],[19,69],[25,90],[33,87],[41,84]]
+  mouthLineData: [
+    ['2021-12-01 04:00:00',36.2],
+    ['2021-12-02 08:00:00',36.5],
+    ['2021-12-03 12:00:00',36.3],
+    ['2021-12-04 16:00:00',37.1],
+    ['2021-12-05 20:00:00',37],
+    ['2021-12-06 24:00:00',37.2],
+    ['2021-12-07 16:00:00',36.9]
+  ],
+  anusLineData: [
+    ['2021-12-01 04:00:00',36.1],
+    ['2021-12-02 08:00:00',36.4],
+    ['2021-12-03 12:00:00',36.3],
+    ['2021-12-04 16:00:00',37.2],
+    ['2021-12-05 20:00:00',37.4],
+    ['2021-12-06 24:00:00',37.1],
+    ['2021-12-07 16:00:00',37.4]
+  ],
+  pulseLineData: [
+    ['2021-12-01 04:00:00',40],
+    ['2021-12-02 08:00:00',50],
+    ['2021-12-03 12:00:00',60],
+    ['2021-12-04 16:00:00',60],
+    ['2021-12-05 20:00:00',80],
+    ['2021-12-06 24:00:00',70],
+    ['2021-12-07 16:00:00',160]
+  ],
+  heartLineData: [
+    ['2021-12-01 04:00:00',72],
+    ['2021-12-02 08:00:00',73],
+    ['2021-12-03 12:00:00',78],
+    ['2021-12-04 16:00:00',69],
+    ['2021-12-05 20:00:00',90],
+    ['2021-12-06 24:00:00',87],
+    ['2021-12-07 16:00:00',84]
+  ]
 }
+const startDate = new Date(data.baseInfo.find(i => i.label === '入院日期').value)
+
 const mouthLineData = data.mouthLineData.map(i => {
   return [timeToX(i[0]), temperatureToY(i[1])]
 })
@@ -25,15 +59,14 @@ const anusLineData = data.anusLineData.map(i => {
 const pulseLineData = data.pulseLineData.map(i => {
   return [timeToX(i[0]), frequencyToY(i[1])]
 })
-console.log(pulseLineData);
 const heartLineData = data.heartLineData.map(i => {
   return [timeToX(i[0]), frequencyToY(i[1])]
 })
 const canvas = document.getElementById('canvas')
-let billScale = window.devicePixelRatio * 1.5
+const billScale = window.devicePixelRatio * 1.5
 canvas.style.width = width + "px"
 canvas.style.height = height + "px"
-let ctx = canvas.getContext('2d')
+const ctx = canvas.getContext('2d')
 canvas.width = Math.floor(width * billScale)
 canvas.height = Math.floor(height * billScale)
 ctx.scale(billScale, billScale)
@@ -44,7 +77,10 @@ window.onresize = function (e) {
 }
 drawGrid(ctx)
 drawPolyline(ctx, mouthLineData, 'black')
-// drawPolyline(ctx, pulseLineData, 'red')
+drawPolyline(ctx, anusLineData, 'black')
+drawPolyline(ctx, pulseLineData, 'red')
+drawPolyline(ctx, heartLineData, 'blue')
+
 // 绘制直线
 function drawLine (ctx, x1 = 0, y1 = 0, x2 = 0, y2 = 0, strokeStyle = 'black', lineWidth = 1) {
   ctx.beginPath()
@@ -55,6 +91,7 @@ function drawLine (ctx, x1 = 0, y1 = 0, x2 = 0, y2 = 0, strokeStyle = 'black', l
   ctx.stroke()
   ctx.closePath()
 }
+
 // 绘制网格
 function drawGrid (ctx) {
   // 绘制横线
@@ -78,14 +115,16 @@ function drawGrid (ctx) {
 // 绘制折线
 function drawPolyline (ctx, data, color) {  
   for (let i = 0; i < data.length - 1; i++) {
-    drawLine(ctx, data[i][0], data[i][1], data[i+1][0], data[i+1][1], color)
+    drawLine(ctx, data[i][0], data[i][1], data[i+1][0], data[i+1][1], color, 2)
   }
 }
 
 // 时间日期转化为x轴坐标
 function timeToX (time) {
-  // 校验格式 YYYY-MM-DD HH:mm:ss
-  return time
+  const currentDate = new Date(time.substring(0, 10))
+  const diffDays = (currentDate - startDate) / 1000 / 60 / 60 / 24
+  const timeNums = new Date(time).getHours()
+  return diffDays * 90 + 7.5 + (timeNums / 4 - 1) * 15
 }
 
 // 温度转化为y轴坐标
@@ -95,5 +134,5 @@ function temperatureToY (temperature) {
 
 // 频率转化为y轴坐标
 function frequencyToY (frequency) {
-  return Math.floor(600 - (frequency - 20) * 75)
+  return Math.floor(600 - (frequency - 20) * (75 / 20))
 }
