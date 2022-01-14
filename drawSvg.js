@@ -73,112 +73,152 @@ const pulseLineData = data.pulseLineData.map(i => {
 const heartLineData = data.heartLineData.map(i => {
   return [timeToX(i[0]), frequencyToY(i[1])]
 })
-const canvas = document.getElementById('canvas')
-init(canvas, width, height)
-
+init(document.getElementById('svg'))
 // 初始化
-function init(canvas, width, height) {
-  const billScale = window.devicePixelRatio * 1.5
-  canvas.style.width = width + "px"
-  canvas.style.height = height + "px"
-  canvas.width = Math.floor(width * billScale)
-  canvas.height = Math.floor(height * billScale)
-  const ctx = canvas.getContext('2d')
-  ctx.scale(billScale, billScale)
-  window.onresize = function (e) {
-    if (billScale !== window.devicePixelRatio) {
-      // ctx.scale(billScale, billScale)
-      window.location.reload()
-    }
-  }
-  drawGrid(ctx)
-  drawPolyline(ctx, mouthLineData, 'black')
-  drawPolyline(ctx, armpitLineData, 'black')
-  drawPolyline(ctx, anusLineData, 'black')
-  drawPolyline(ctx, heartLineData, 'red')
-  drawPolyline(ctx, pulseLineData, 'red')
-  drawPoints(ctx, mouthLineData, 0)
-  drawPoints(ctx, armpitLineData, 1)
-  drawPoints(ctx, anusLineData, 2)
-  drawPoints(ctx, heartLineData, 3)
-  drawPoints(ctx, pulseLineData, 4)
-}
-// 绘制直线
-function drawLine (ctx, x1 = 0, y1 = 0, x2 = 0, y2 = 0, strokeStyle = 'black', lineWidth = 1) {
-  ctx.beginPath()
-  ctx.strokeStyle = strokeStyle
-  ctx.lineWidth = lineWidth
-  ctx.moveTo(x1, y1)
-  ctx.lineTo(x2, y2)
-  ctx.stroke()
-  ctx.closePath()
+function init(svg) {
+  drawGrid(svg)
+  drawPolyline(svg, mouthLineData, 'black')
+  drawPolyline(svg, armpitLineData, 'black')
+  drawPolyline(svg, anusLineData, 'black')
+  drawPolyline(svg, heartLineData, 'red')
+  drawPolyline(svg, pulseLineData, 'red')
+  drawPoints(svg, mouthLineData, 0)
+  drawPoints(svg, armpitLineData, 1)
+  drawPoints(svg, anusLineData, 2)
+  drawPoints(svg, heartLineData, 3)
+  drawPoints(svg, pulseLineData, 4)
 }
 // 绘制网格
-function drawGrid (ctx) {
-  // 绘制横线
+function drawGrid (svg) {
+  // 横线
   for (let i = 1; i < 40; i++) {
     if (i % 5 === 0) {
-      drawLine(ctx, 0, i*w, width, i*w, 'black', 2)
+      addSvgElement(svg, 'line', {
+        x1: 0,
+        y1: i*w,
+        x2: width,
+        y2: i*w,
+        stroke: 'black',
+        'stroke-width': 2
+      })
     } else {
-      drawLine(ctx, 0, i*w, width, i*w)
+      addSvgElement(svg, 'line', {
+        x1: 0,
+        y1: i*w,
+        x2: width,
+        y2: i*w,
+        stroke: 'black',
+        'stroke-width': 1
+      })
     }
   }
-  // 绘制竖线
+  // 竖线
   for (let i = 1; i < 42; i++) {
     if (i % 6 === 0) {
-      drawLine(ctx, (i-1)*w + (w-1), 0, (i-1)*w + (w-1), height, 'red', 2)
+      addSvgElement(svg, 'line', {
+        x1: (i-1)*w + (w-1),
+        y1: 0,
+        x2: (i-1)*w + (w-1),
+        y2: height,
+        stroke: 'red',
+        'stroke-width': 2
+      })
     } else {
-      drawLine(ctx, (i-1)*w + (w-0.5), 0, (i-1)*w + (w-0.5), height)
+      addSvgElement(svg, 'line', {
+        x1: (i-1)*w + (w-0.5),
+        y1: 0,
+        x2: (i-1)*w + (w-0.5),
+        y2: height,
+        stroke: 'black',
+        'stroke-width': 1
+      })
     }
   }
 }
 // 绘制折线
-function drawPolyline (ctx, data, color) {
+function drawPolyline (svg, data, color) {
   for (let i = 0; i < data.length - 1; i++) {
-    drawLine(ctx, data[i][0], data[i][1], data[i+1][0], data[i+1][1], color, 2)
+    addSvgElement(svg, 'line', {
+      x1: data[i][0],
+      y1: data[i][1],
+      x2: data[i+1][0],
+      y2: data[i+1][1],
+      stroke: color,
+      'stroke-width': 2
+    })
   }
 }
 // 绘制点
-function drawPoints (ctx, data, style = 0) {
+function drawPoints (svg, data, style = 0) {
   const pointSize = 5
   for (let i = 0; i < data.length; i++) {
-    ctx.beginPath()
-    ctx.lineWidth = 2
     switch (style) {
       case 0: // 口表，黑色实心圆
-        ctx.strokeStyle = 'black'
-        ctx.fillStyle = 'black'
-        ctx.arc(data[i][0], data[i][1], pointSize, 0, 2 * Math.PI)
-        break;
+        addSvgElement(svg, 'circle', {
+          cx: data[i][0],
+          cy: data[i][1],
+          r: pointSize,
+          fill: 'black'
+        })
+        break
       case 1: // 腋表，蓝色交叉
         const diff = pointSize
         // const diff = Math.sqrt(Math.pow(pointSize, 2) / 2)
-        ctx.strokeStyle = 'blue'
-        ctx.moveTo(data[i][0] - diff, data[i][1] + diff)
-        ctx.lineTo(data[i][0] + diff, data[i][1] - diff)
-        ctx.moveTo(data[i][0] + diff, data[i][1] + diff)
-        ctx.lineTo(data[i][0] - diff, data[i][1] - diff)
+        addSvgElement(svg, 'line', {
+          x1: data[i][0] - diff,
+          y1: data[i][1] + diff,
+          x2: data[i][0] + diff,
+          y2: data[i][1] - diff,
+          stroke: 'blue',
+          'stroke-width': 2
+        })
+        addSvgElement(svg, 'line', {
+          x1: data[i][0] + diff,
+          y1: data[i][1] + diff,
+          x2: data[i][0] - diff,
+          y2: data[i][1] - diff,
+          stroke: 'blue',
+          'stroke-width': 2
+        })
         break
-      case 2: // 肛表，黑色实心圆
-        ctx.strokeStyle = 'black'
-        ctx.fillStyle = '#fff'
-        ctx.arc(data[i][0], data[i][1], pointSize, 0, 2 * Math.PI)
-        break;
+      case 2: // 肛表，黑色空心圆
+        addSvgElement(svg, 'circle', {
+          cx: data[i][0],
+          cy: data[i][1],
+          r: pointSize,
+          fill: 'black'
+        })
+        addSvgElement(svg, 'circle', {
+          cx: data[i][0],
+          cy: data[i][1],
+          r: pointSize - 1,
+          fill: 'white'
+        })
+        break
       case 3: // 心率，红色空心圆
-        ctx.strokeStyle = 'red'
-        ctx.fillStyle = '#fff'
-        ctx.arc(data[i][0], data[i][1], pointSize, 0, 2 * Math.PI)
+        addSvgElement(svg, 'circle', {
+          cx: data[i][0],
+          cy: data[i][1],
+          r: pointSize,
+          fill: 'red'
+        })
+        addSvgElement(svg, 'circle', {
+          cx: data[i][0],
+          cy: data[i][1],
+          r: pointSize - 1,
+          fill: 'white'
+        })
         break;
       case 4: // 脉搏，红色实心圆
-        ctx.strokeStyle = 'red'
-        ctx.fillStyle = 'red'
-        ctx.arc(data[i][0], data[i][1], pointSize, 0, 2 * Math.PI)
+        addSvgElement(svg, 'circle', {
+          cx: data[i][0],
+          cy: data[i][1],
+          r: pointSize,
+          fill: 'red'
+        })
       default:
-        break;
+        break
     }
-    ctx.fill()
-    ctx.stroke()
-    ctx.closePath()
   }
 }
 // 时间日期转化为x轴坐标
@@ -195,4 +235,12 @@ function temperatureToY (temperature) {
 // 频率转化为y轴坐标
 function frequencyToY (frequency) {
   return Math.floor(600 - (frequency - 20) * (75 / 20))
+}
+// 创建svg子元素
+function addSvgElement (svg, tagName, attributes) {
+  let el = document.createElementNS('http://www.w3.org/2000/svg', tagName)
+  for (let attr in attributes) {
+    el.setAttribute(attr, attributes[attr])
+  }
+  svg.appendChild(el)
 }
