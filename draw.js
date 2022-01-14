@@ -20,37 +20,49 @@ const data = {
     ['2021-12-06 24:00:00',37.2],
     ['2021-12-07 16:00:00',36.9]
   ],
-  anusLineData: [
-    ['2021-12-01 04:00:00',36.1],
-    ['2021-12-02 08:00:00',36.4],
-    ['2021-12-03 12:00:00',36.3],
-    ['2021-12-04 16:00:00',37.2],
-    ['2021-12-05 20:00:00',37.4],
-    ['2021-12-06 24:00:00',37.1],
-    ['2021-12-07 16:00:00',37.4]
+  armpitLineData: [
+    ['2021-12-01 14:00:00',38],
+    ['2021-12-02 14:00:00',38.2],
+    ['2021-12-03 14:00:00',38.4],
+    ['2021-12-04 14:00:00',38.6],
+    ['2021-12-05 14:00:00',38.8],
+    ['2021-12-06 14:00:00',39],
+    ['2021-12-07 14:00:00',39.2]
   ],
-  pulseLineData: [
-    ['2021-12-01 04:00:00',40],
-    ['2021-12-02 08:00:00',50],
-    ['2021-12-03 12:00:00',60],
-    ['2021-12-04 16:00:00',60],
-    ['2021-12-05 20:00:00',80],
-    ['2021-12-06 24:00:00',70],
-    ['2021-12-07 16:00:00',160]
+  anusLineData: [
+    ['2021-12-01 04:00:00',37.1],
+    ['2021-12-02 08:00:00',37.4],
+    ['2021-12-03 12:00:00',37.3],
+    ['2021-12-04 16:00:00',38.2],
+    ['2021-12-05 20:00:00',38.4],
+    ['2021-12-06 24:00:00',38.1],
+    ['2021-12-07 16:00:00',38.4]
   ],
   heartLineData: [
-    ['2021-12-01 04:00:00',72],
-    ['2021-12-02 08:00:00',73],
-    ['2021-12-03 12:00:00',78],
-    ['2021-12-04 16:00:00',69],
-    ['2021-12-05 20:00:00',90],
-    ['2021-12-06 24:00:00',87],
-    ['2021-12-07 16:00:00',84]
+    ['2021-12-01 08:00:00',150],
+    ['2021-12-02 08:00:00',130],
+    ['2021-12-03 08:00:00',124],
+    ['2021-12-04 08:00:00',124],
+    ['2021-12-05 08:00:00',130],
+    ['2021-12-06 08:00:00',138],
+    ['2021-12-07 08:00:00',160]
+  ],
+  pulseLineData: [
+    ['2021-12-01 08:00:00',140],
+    ['2021-12-02 08:00:00',150],
+    ['2021-12-03 08:00:00',140],
+    ['2021-12-04 08:00:00',130],
+    ['2021-12-05 08:00:00',130],
+    ['2021-12-06 08:00:00',138],
+    ['2021-12-07 08:00:00',160]
   ]
 }
 const startDate = new Date(data.baseInfo.find(i => i.label === '入院日期').value)
 
 const mouthLineData = data.mouthLineData.map(i => {
+  return [timeToX(i[0]), temperatureToY(i[1])]
+})
+const armpitLineData = data.armpitLineData.map(i => {
   return [timeToX(i[0]), temperatureToY(i[1])]
 })
 const anusLineData = data.anusLineData.map(i => {
@@ -75,11 +87,20 @@ window.onresize = function (e) {
     window.location.reload()
   }
 }
+
 drawGrid(ctx)
+
 drawPolyline(ctx, mouthLineData, 'black')
+drawPolyline(ctx, armpitLineData, 'black')
 drawPolyline(ctx, anusLineData, 'black')
+drawPolyline(ctx, heartLineData, 'red')
 drawPolyline(ctx, pulseLineData, 'red')
-drawPolyline(ctx, heartLineData, 'blue')
+
+drawPoints(ctx, mouthLineData, 0)
+drawPoints(ctx, armpitLineData, 1)
+drawPoints(ctx, anusLineData, 2)
+drawPoints(ctx, heartLineData, 3)
+drawPoints(ctx, pulseLineData, 4)
 
 // 绘制直线
 function drawLine (ctx, x1 = 0, y1 = 0, x2 = 0, y2 = 0, strokeStyle = 'black', lineWidth = 1) {
@@ -113,9 +134,53 @@ function drawGrid (ctx) {
 }
 
 // 绘制折线
-function drawPolyline (ctx, data, color) {  
+function drawPolyline (ctx, data, color) {
   for (let i = 0; i < data.length - 1; i++) {
     drawLine(ctx, data[i][0], data[i][1], data[i+1][0], data[i+1][1], color, 2)
+  }
+}
+
+// 绘制点
+function drawPoints (ctx, data, style = 0) {
+  const pointSize = 5
+  for (let i = 0; i < data.length; i++) {
+    ctx.beginPath()
+    ctx.lineWidth = 2
+    switch (style) {
+      case 0: // 口表，黑色实心圆
+        ctx.strokeStyle = 'black'
+        ctx.fillStyle = 'black'
+        ctx.arc(data[i][0], data[i][1], pointSize, 0, 2 * Math.PI)
+        break;
+      case 1: // 腋表，蓝色交叉
+        const diff = pointSize
+        // const diff = Math.sqrt(Math.pow(pointSize, 2) / 2)
+        ctx.strokeStyle = 'blue'
+        ctx.moveTo(data[i][0] - diff, data[i][1] + diff)
+        ctx.lineTo(data[i][0] + diff, data[i][1] - diff)
+        ctx.moveTo(data[i][0] + diff, data[i][1] + diff)
+        ctx.lineTo(data[i][0] - diff, data[i][1] - diff)
+        break
+      case 2: // 肛表，黑色实心圆
+        ctx.strokeStyle = 'black'
+        ctx.fillStyle = '#fff'
+        ctx.arc(data[i][0], data[i][1], pointSize, 0, 2 * Math.PI)
+        break;
+      case 3: // 心率，红色空心圆
+        ctx.strokeStyle = 'red'
+        ctx.fillStyle = '#fff'
+        ctx.arc(data[i][0], data[i][1], pointSize, 0, 2 * Math.PI)
+        break;
+      case 4: // 脉搏，红色实心圆
+        ctx.strokeStyle = 'red'
+        ctx.fillStyle = 'red'
+        ctx.arc(data[i][0], data[i][1], pointSize, 0, 2 * Math.PI)
+      default:
+        break;
+    }
+    ctx.fill()
+    ctx.stroke()
+    ctx.closePath()
   }
 }
 
