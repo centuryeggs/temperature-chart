@@ -150,3 +150,18 @@ body {
   margin-top: 10px;
   text-align: center;
 }
+[data-tip]:hover {
+  transition: .2s;
+  cursor: pointer;
+}
+#tooltip {
+  display: none;
+  color: #fff;
+  background: #434456;
+  padding: 6px 10px;
+  transform: translate(-50%, calc(-100% - 10px));
+  position: absolute;
+  z-index: 9999;
+  border-radius: 5px;
+  pointer-events: none;
+}

@@ -76,17 +76,23 @@ const heartLineData = data.heartLineData.map(i => {
 init(document.getElementById('svg'))
 // 初始化
 function init(svg) {
+  svg.addEventListener('mouseenter', function(e) {
+    svg.addEventListener('mousemove', throttle(hoverPiont))
+  })
+  svg.addEventListener('mouseleave', function(e) {
+    svg.removeEventListener('mousemove', throttle(hoverPiont))
+  })
   drawGrid(svg)
   drawPolyline(svg, mouthLineData, 'black')
   drawPolyline(svg, armpitLineData, 'black')
   drawPolyline(svg, anusLineData, 'black')
   drawPolyline(svg, heartLineData, 'red')
   drawPolyline(svg, pulseLineData, 'red')
-  drawPoints(svg, mouthLineData, 0)
-  drawPoints(svg, armpitLineData, 1)
-  drawPoints(svg, anusLineData, 2)
-  drawPoints(svg, heartLineData, 3)
-  drawPoints(svg, pulseLineData, 4)
+  drawPoints(svg, mouthLineData, '口表')
+  drawPoints(svg, armpitLineData, '腋表')
+  drawPoints(svg, anusLineData, '肛表')
+  drawPoints(svg, heartLineData, '心率')
+  drawPoints(svg, pulseLineData, '脉搏')
 }
 // 绘制网格
 function drawGrid (svg) {
@@ -137,34 +143,37 @@ function drawGrid (svg) {
 }
 // 绘制折线
 function drawPolyline (svg, data, color) {
-  for (let i = 0; i < data.length - 1; i++) {
-    addSvgElement(svg, 'line', {
-      x1: data[i][0],
-      y1: data[i][1],
-      x2: data[i+1][0],
-      y2: data[i+1][1],
-      stroke: color,
-      'stroke-width': 2
-    })
+  let points = ''
+  for (let i = 0; i < data.length; i++) {
+    points += `${data[i][0]} ${data[i][1]},`
   }
+  addSvgElement(svg, 'polyline', {
+    points: points.substring(0, points.length - 1),
+    fill: "none",
+    stroke: color,
+    'stroke-width': 2
+  })
 }
 // 绘制点
-function drawPoints (svg, data, style = 0) {
+function drawPoints (svg, data, style = '口表') {
   const pointSize = 5
   for (let i = 0; i < data.length; i++) {
     switch (style) {
-      case 0: // 口表，黑色实心圆
+      case '口表': // 口表，黑色实心圆
         addSvgElement(svg, 'circle', {
+          class: 'point',
+          'data-tip': `${data[i][0]},${data[i][1]}`,
           cx: data[i][0],
           cy: data[i][1],
           r: pointSize,
           fill: 'black'
         })
         break
-      case 1: // 腋表，蓝色交叉
+      case '腋表': // 腋表，蓝色交叉
         const diff = pointSize
         // const diff = Math.sqrt(Math.pow(pointSize, 2) / 2)
         addSvgElement(svg, 'line', {
+          class: 'point',
           x1: data[i][0] - diff,
           y1: data[i][1] + diff,
           x2: data[i][0] + diff,
@@ -173,6 +182,7 @@ function drawPoints (svg, data, style = 0) {
           'stroke-width': 2
         })
         addSvgElement(svg, 'line', {
+          class: 'point',
           x1: data[i][0] + diff,
           y1: data[i][1] + diff,
           x2: data[i][0] - diff,
@@ -181,36 +191,32 @@ function drawPoints (svg, data, style = 0) {
           'stroke-width': 2
         })
         break
-      case 2: // 肛表，黑色空心圆
+      case '肛表': // 肛表，黑色空心圆
         addSvgElement(svg, 'circle', {
+          class: 'point',
+          'data-tip': `${data[i][0]},${data[i][1]}`,
           cx: data[i][0],
           cy: data[i][1],
           r: pointSize,
-          fill: 'black'
-        })
-        addSvgElement(svg, 'circle', {
-          cx: data[i][0],
-          cy: data[i][1],
-          r: pointSize - 1,
-          fill: 'white'
+          fill: 'white',
+          stroke: 'black'
         })
         break
-      case 3: // 心率，红色空心圆
+      case '心率': // 心率，红色空心圆
         addSvgElement(svg, 'circle', {
+          class: 'point',
+          'data-tip': `${data[i][0]},${data[i][1]}`,
           cx: data[i][0],
           cy: data[i][1],
           r: pointSize,
-          fill: 'red'
-        })
-        addSvgElement(svg, 'circle', {
-          cx: data[i][0],
-          cy: data[i][1],
-          r: pointSize - 1,
-          fill: 'white'
+          fill: 'white',
+          stroke: 'red'
         })
         break;
-      case 4: // 脉搏，红色实心圆
+      case '脉搏': // 脉搏，红色实心圆
         addSvgElement(svg, 'circle', {
+          class: 'point',
+          'data-tip': `${data[i][0]},${data[i][1]}`,
           cx: data[i][0],
           cy: data[i][1],
           r: pointSize,
@@ -243,4 +249,28 @@ function addSvgElement (svg, tagName, attributes) {
     el.setAttribute(attr, attributes[attr])
   }
   svg.appendChild(el)
+}
+// hoverPoint时显示坐标信息
+function hoverPiont (e) {
+  let tooltip = document.getElementById('tooltip')
+  if (e.target.classList.contains('point')) {
+    tooltip.innerHTML = e.target.dataset.tip
+    tooltip.style.display = "block"
+    tooltip.style.left = e.pageX + "px"
+    tooltip.style.top = e.pageY + "px"
+  } else {
+    tooltip.style.display = "none"
+  }
+}
+// 节流函数
+function throttle (fn) {
+  let isRun = false
+  return function () {
+    if (isRun) return
+    isRun = true
+    setTimeout(() => {
+      fn.apply(this, arguments)
+      isRun = false
+    }, 50)
+  }
 }
