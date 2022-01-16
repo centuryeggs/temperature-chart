@@ -107,8 +107,10 @@
               </div>
               <div class="icon">腋表
                 <svg width="10" height="10">
-                  <line x1="0" y1="0" x2="10" y2="10" stroke="blue" stroke-width="2"/>
-                  <line x1="0" y1="10" y2="0" x2="10" stroke="blue" stroke-width="2"/>
+                  <g stroke="blue" stroke-width="2">
+                    <line x1="0" y1="0" x2="10" y2="10" />
+                    <line x1="0" y1="10" y2="0" x2="10" />
+                  </g>
                 </svg>
               </div>
               <div class="icon">肛表
@@ -145,7 +147,7 @@
             </div>
             <div class="temperature">
               <div>T</div>
-              <div>(℃)</div>
+              <div>(°C)</div>
               <div class="axis-nums">
                 <div>41</div>
                 <div>40</div>
@@ -155,12 +157,11 @@
                 <div>36</div>
                 <div>35</div>
               </div>
-              
             </div>
           </div>
-          <div class="values">
-            <!-- <canvas id="canvas"></canvas> -->
+          <div class="values" style="position: relative;">
             <svg id="svg" width="630" height="600" xmlns="http://www.w3.org/2000/svg"></svg>
+            <div id="tooltip"></div>
           </div>
         </div>
         <div class="row">
@@ -275,7 +276,6 @@
       <div class="pagination">第 1 页</div>
     </div>
   </div>
-  <div id="tooltip"></div>
   <script src="./drawSvg.js"></script>
 </body>
 </html>

@@ -155,13 +155,26 @@ body {
   cursor: pointer;
 }
 #tooltip {
-  display: none;
+  visibility: hidden;
   color: #fff;
   background: #434456;
   padding: 6px 10px;
-  transform: translate(-50%, calc(-100% - 10px));
+  transform: translate(-50%, -100%);
   position: absolute;
   z-index: 9999;
   border-radius: 5px;
   pointer-events: none;
+  box-shadow: 0 0 5px rgba(0, 0, 0, .6);
+  text-align: center;
+  white-space: nowrap;
+}
+#tooltip::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #434456 transparent transparent transparent;
 }

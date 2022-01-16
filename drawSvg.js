@@ -17,17 +17,17 @@ const data = { // 数据
     ['2021-12-03 12:00:00',36.3],
     ['2021-12-04 16:00:00',37.1],
     ['2021-12-05 20:00:00',37],
-    ['2021-12-06 24:00:00',37.2],
-    ['2021-12-07 16:00:00',36.9]
+    ['2021-12-06 23:59:59',37.2],
+    ['2021-12-07 23:00:00',36.9]
   ],
   armpitLineData: [
-    ['2021-12-01 14:00:00',38],
-    ['2021-12-02 14:00:00',38.2],
-    ['2021-12-03 14:00:00',38.4],
-    ['2021-12-04 14:00:00',38.6],
-    ['2021-12-05 14:00:00',38.8],
-    ['2021-12-06 14:00:00',39],
-    ['2021-12-07 14:00:00',39.2]
+    ['2021-12-01 16:00:00',39.2],
+    ['2021-12-02 16:00:00',39],
+    ['2021-12-03 16:00:00',38.8],
+    ['2021-12-04 16:00:00',38.6],
+    ['2021-12-05 16:00:00',38.4],
+    ['2021-12-06 16:00:00',38.2],
+    ['2021-12-07 16:00:00',38]
   ],
   anusLineData: [
     ['2021-12-01 04:00:00',37.1],
@@ -59,28 +59,30 @@ const data = { // 数据
 }
 const startDate = new Date(data.baseInfo.find(i => i.label === '入院日期').value)
 const mouthLineData = data.mouthLineData.map(i => {
-  return [timeToX(i[0]), temperatureToY(i[1])]
+  return [i[0], i[1], timeToX(i[0]), temperatureToY(i[1])]
 })
 const armpitLineData = data.armpitLineData.map(i => {
-  return [timeToX(i[0]), temperatureToY(i[1])]
+  return [i[0], i[1], timeToX(i[0]), temperatureToY(i[1])]
 })
 const anusLineData = data.anusLineData.map(i => {
-  return [timeToX(i[0]), temperatureToY(i[1])]
+  return [i[0], i[1], timeToX(i[0]), temperatureToY(i[1])]
 })
 const pulseLineData = data.pulseLineData.map(i => {
-  return [timeToX(i[0]), frequencyToY(i[1])]
+  return [i[0], i[1], timeToX(i[0]), frequencyToY(i[1])]
 })
 const heartLineData = data.heartLineData.map(i => {
-  return [timeToX(i[0]), frequencyToY(i[1])]
+  return [i[0], i[1], timeToX(i[0]), frequencyToY(i[1])]
 })
-init(document.getElementById('svg'))
+const tooltip = document.getElementById('tooltip')
+const svg = document.getElementById('svg')
+init(svg)
 // 初始化
 function init(svg) {
   svg.addEventListener('mouseenter', function(e) {
-    svg.addEventListener('mousemove', throttle(hoverPiont))
+    svg.addEventListener('mousemove', hoverPiont)
   })
   svg.addEventListener('mouseleave', function(e) {
-    svg.removeEventListener('mousemove', throttle(hoverPiont))
+    svg.removeEventListener('mousemove', hoverPiont)
   })
   drawGrid(svg)
   drawPolyline(svg, mouthLineData, 'black')
@@ -145,7 +147,7 @@ function drawGrid (svg) {
 function drawPolyline (svg, data, color) {
   let points = ''
   for (let i = 0; i < data.length; i++) {
-    points += `${data[i][0]} ${data[i][1]},`
+    points += `${data[i][2]} ${data[i][3]},`
   }
   addSvgElement(svg, 'polyline', {
     points: points.substring(0, points.length - 1),
@@ -158,67 +160,81 @@ function drawPolyline (svg, data, color) {
 function drawPoints (svg, data, style = '口表') {
   const pointSize = 5
   for (let i = 0; i < data.length; i++) {
+    const [centerX, centerY] = [data[i][2], data[i][3]]
     switch (style) {
       case '口表': // 口表，黑色实心圆
+        data[i][1] = '口表：' + data[i][1] + ' °C'
         addSvgElement(svg, 'circle', {
           class: 'point',
-          'data-tip': `${data[i][0]},${data[i][1]}`,
-          cx: data[i][0],
-          cy: data[i][1],
+          'data-tip': data[i],
+          cx: centerX,
+          cy: centerY,
           r: pointSize,
           fill: 'black'
         })
         break
       case '腋表': // 腋表，蓝色交叉
+        data[i][1] = '腋表：' + data[i][1] + ' °C'
         const diff = pointSize
         // const diff = Math.sqrt(Math.pow(pointSize, 2) / 2)
         addSvgElement(svg, 'line', {
-          class: 'point',
-          x1: data[i][0] - diff,
-          y1: data[i][1] + diff,
-          x2: data[i][0] + diff,
-          y2: data[i][1] - diff,
+          x1: centerX-diff,
+          y1: centerY+diff,
+          x2: centerX+diff,
+          y2: centerY-diff,
           stroke: 'blue',
           'stroke-width': 2
         })
         addSvgElement(svg, 'line', {
-          class: 'point',
-          x1: data[i][0] + diff,
-          y1: data[i][1] + diff,
-          x2: data[i][0] - diff,
-          y2: data[i][1] - diff,
+          x1: centerX+diff,
+          y1: centerY+diff,
+          x2: centerX-diff,
+          y2: centerY-diff,
           stroke: 'blue',
           'stroke-width': 2
         })
-        break
-      case '肛表': // 肛表，黑色空心圆
+        // 透明的hover区域
         addSvgElement(svg, 'circle', {
           class: 'point',
-          'data-tip': `${data[i][0]},${data[i][1]}`,
-          cx: data[i][0],
-          cy: data[i][1],
+          'data-tip': data[i],
+          cx: centerX,
+          cy: centerY,
+          r: pointSize + 1,
+          fill: 'transparent',
+          stroke: 'transparent'
+        })
+        break
+      case '肛表': // 肛表，黑色空心圆
+        data[i][1] = '肛表：' + data[i][1] + ' °C'
+        addSvgElement(svg, 'circle', {
+          class: 'point',
+          'data-tip': data[i],
+          cx: centerX,
+          cy: centerY,
           r: pointSize,
           fill: 'white',
           stroke: 'black'
         })
         break
       case '心率': // 心率，红色空心圆
+        data[i][1] = '心率：' + data[i][1] + ' 次/分'
         addSvgElement(svg, 'circle', {
           class: 'point',
-          'data-tip': `${data[i][0]},${data[i][1]}`,
-          cx: data[i][0],
-          cy: data[i][1],
+          'data-tip': data[i],
+          cx: centerX,
+          cy: centerY,
           r: pointSize,
           fill: 'white',
           stroke: 'red'
         })
         break;
       case '脉搏': // 脉搏，红色实心圆
+      data[i][1] = '脉搏：' + data[i][1] + ' 次/分'
         addSvgElement(svg, 'circle', {
           class: 'point',
-          'data-tip': `${data[i][0]},${data[i][1]}`,
-          cx: data[i][0],
-          cy: data[i][1],
+          'data-tip': data[i],
+          cx: centerX,
+          cy: centerY,
           r: pointSize,
           fill: 'red'
         })
@@ -244,7 +260,7 @@ function frequencyToY (frequency) {
 }
 // 创建svg子元素
 function addSvgElement (svg, tagName, attributes) {
-  let el = document.createElementNS('http://www.w3.org/2000/svg', tagName)
+  const el = document.createElementNS('http://www.w3.org/2000/svg', tagName)
   for (let attr in attributes) {
     el.setAttribute(attr, attributes[attr])
   }
@@ -252,14 +268,14 @@ function addSvgElement (svg, tagName, attributes) {
 }
 // hoverPoint时显示坐标信息
 function hoverPiont (e) {
-  let tooltip = document.getElementById('tooltip')
   if (e.target.classList.contains('point')) {
-    tooltip.innerHTML = e.target.dataset.tip
-    tooltip.style.display = "block"
-    tooltip.style.left = e.pageX + "px"
-    tooltip.style.top = e.pageY + "px"
-  } else {
-    tooltip.style.display = "none"
+    const [forwardText, backText, x, y] = e.target.dataset.tip.split(',')
+    tooltip.innerText = `${forwardText}\n${backText}`
+    tooltip.style.visibility = 'visible'
+    tooltip.style.left = x + "px"
+    tooltip.style.top = y - 13 + "px"
+  } else if (tooltip.style.visibility !== 'hidden') {
+    tooltip.style.visibility = 'hidden'
   }
 }
 // 节流函数
@@ -271,6 +287,6 @@ function throttle (fn) {
     setTimeout(() => {
       fn.apply(this, arguments)
       isRun = false
-    }, 50)
+    }, 100)
   }
 }
