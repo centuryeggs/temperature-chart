@@ -12,7 +12,7 @@ body {
   justify-content: space-between;
   align-items: flex-start;
 }
-.A4 {
+#A4, #A4new {
   width: 210mm;
   height: 297mm;
   display: flex;
@@ -21,13 +21,13 @@ body {
 }
 @media print {
   body { display: block; }
-  .A4 {
+  #A4 {
     page-break-after: always;
     transform: scale(1.2);
     transform-origin: 0 0;
   }
 }
-.content {
+.container {
   width: 724px; /* 720px = 48 * 15 + 4 */
   height: 281mm;
   background-color: #fff;
@@ -116,6 +116,10 @@ body {
   position: absolute;
   bottom: 0;
   left: 0;
+  cursor: pointer;
+}
+.label .cell .y-axis .icons > .icon {
+  color: red;
 }
 .pulse {
   flex: 1;

@@ -9,7 +9,7 @@ const data = { // 数据
     { label: '科别', value: '骨科' },
     { label: '床号', value: '001' },
     { label: '住院病历号', value: '123456' },
-    { label: '入院日期', value: '2021-12-01' }
+    { label: '入院日期', value: '2021-12-01 00:00:00' }
   ],
   mouthLineData: [
     ['2021-12-01 04:00:01',36.2],
@@ -57,7 +57,7 @@ const data = { // 数据
     ['2021-12-07 08:00:00',160]
   ]
 }
-const startDate = new Date(data.baseInfo.find(i => i.label === '入院日期').value + ' 00:00:00')
+const startDate = new Date(data.baseInfo.find(i => i.label === '入院日期').value)
 const mouthLineData = data.mouthLineData.map(i => {
   return [i[0], i[1], timeToX(i[0]), temperatureToY(i[1])]
 })
@@ -75,9 +75,9 @@ const heartLineData = data.heartLineData.map(i => {
 })
 const tooltip = document.getElementById('tooltip')
 const svg = document.getElementById('svg')
-init(svg)
+gridInit(svg)
 // 初始化
-function init(svg) {
+function gridInit(svg) {
   svg.addEventListener('mouseenter', function(e) {
     svg.addEventListener('mousemove', hoverPiont)
   })
@@ -280,15 +280,108 @@ function hoverPiont (e) {
     tooltip.style.visibility = 'hidden'
   }
 }
-// 节流函数
-function throttle (fn) {
-  let isRun = false
-  return function () {
-    if (isRun) return
-    isRun = true
-    setTimeout(() => {
-      fn.apply(this, arguments)
-      isRun = false
-    }, 100)
+
+/* ========================new======================== */
+class temperatureChart {
+  constructor (rootNode, originData) {
+    this.title = originData.title
+    this.baseInfo = originData.baseInfo
+    this.startDate = new Date(originData.baseInfo.find(i => i.label === '入院日期').value)
+    this.mouthLineData = originData.mouthTemperature.map(i => {
+      return [i[0], i[1], timeToX(i[0]), temperatureToY(i[1])]
+    })
+    this.armpitLineData = originData.armpitTemperature.map(i => {
+      return [i[0], i[1], timeToX(i[0]), temperatureToY(i[1])]
+    })
+    this.anusLineData = originData.anusTemperature.map(i => {
+      return [i[0], i[1], timeToX(i[0]), temperatureToY(i[1])]
+    })
+    this.pulseLineData = originData.pulseFrequency.map(i => {
+      return [i[0], i[1], timeToX(i[0]), frequencyToY(i[1])]
+    })
+    this.heartLineData = originData.heartFrequency.map(i => {
+      return [i[0], i[1], timeToX(i[0]), frequencyToY(i[1])]
+    })
+    this.container = document.createElement('div')
+    this.container.classList.add('container')
+    this.tooltip = document.createElement('div')
+    this.tooltip.classList.add('tooltip')
+    rootNode.appendChild(this.container)
+    rootNode.appendChild(this.tooltip)
+    this.init()
+  }
+  // 初始化
+  init () {
+    this.createTitle()
+    this.createHeadForm()
+    this.createMainTable()
+    this.createPagination()
+  }
+  // 添加标题
+  createTitle () {
+    const title = document.createElement('div')
+    title.classList.add('title')
+    title.innerText = this.title
+    this.container.appendChild(title)
+  }
+  // 添加表头form 标题与表格之间的基础信息
+  createHeadForm () {
+    const headForm = document.createElement('div')
+    headForm.classList.add('head-form')
+    let innerHTML = ''
+    this.baseInfo.forEach(i => {
+      innerHTML += `
+        <div class="item">
+          <div class="label">${i.label}</div>
+          <div class="value">${i.value}</div>
+        </div>`
+    })
+    headForm.innerHTML = innerHTML
+    this.container.appendChild(headForm)
+  }
+  // 添加表格主体
+  createMainTable () {
+    const rootSvg = document.createElement('svg')
+    
+    this.drawLine(rootSvg, [0, 0], [], 'black', 2)
+  }
+  // 创建svg子元素
+  addSvgElement (svg, tagName, attributes) {
+    const el = document.createElementNS('http://www.w3.org/2000/svg', tagName)
+    for (let attr in attributes) {
+      el.setAttribute(attr, attributes[attr])
+    }
+    svg.appendChild(el)
+  }
+  // 画线
+  drawLine (svg, [x1,y1], [x2,y2], color, width) {
+    this.addSvgElement(svg, 'line', {
+      x1, y1, x2, y2, stroke: color, 'stroke-width': width
+    })
+  }
+  // 画折线
+  drawPolyline (svg, data, color, width = 2) {
+    let points = ''
+    for (let i = 0; i < data.length; i++) {
+      points += `${data[i][2]} ${data[i][3]},`
+    }
+    this.addSvgElement(svg, 'polyline', {
+      points: points.substring(0, points.length - 1),
+      fill: "none",
+      stroke: color,
+      'stroke-width': width
+    })
+  }
+  // 画圆
+  drawCircle (svg) {
+
+  }
+  // 添加页码
+  createPagination () {
+
+  }
+  // 数据变更
+  update (text) {
+    console.log(text)
   }
 }
