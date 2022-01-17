@@ -12,13 +12,13 @@ const data = { // 数据
     { label: '入院日期', value: '2021-12-01' }
   ],
   mouthLineData: [
-    ['2021-12-01 04:00:00',36.2],
-    ['2021-12-02 08:00:00',36.5],
+    ['2021-12-01 04:00:01',36.2],
+    ['2021-12-02 00:00:00',36.5],
     ['2021-12-03 12:00:00',36.3],
     ['2021-12-04 16:00:00',37.1],
     ['2021-12-05 20:00:00',37],
     ['2021-12-06 23:59:59',37.2],
-    ['2021-12-07 23:00:00',36.9]
+    ['2021-12-07 24:00:00',36.9]
   ],
   armpitLineData: [
     ['2021-12-01 16:00:00',39.2],
@@ -57,7 +57,7 @@ const data = { // 数据
     ['2021-12-07 08:00:00',160]
   ]
 }
-const startDate = new Date(data.baseInfo.find(i => i.label === '入院日期').value)
+const startDate = new Date(data.baseInfo.find(i => i.label === '入院日期').value + ' 00:00:00')
 const mouthLineData = data.mouthLineData.map(i => {
   return [i[0], i[1], timeToX(i[0]), temperatureToY(i[1])]
 })
@@ -245,10 +245,12 @@ function drawPoints (svg, data, style = '口表') {
 }
 // 时间日期转化为x轴坐标
 function timeToX (time) {
-  const currentDate = new Date(time.substring(0, 10))
-  const diffDays = (currentDate - startDate) / 1000 / 60 / 60 / 24
-  const timeNums = new Date(time).getHours()
-  return diffDays * 90 + 7.5 + (timeNums / 4 - 1) * 15
+  const currentDate = new Date(time)
+  let num = Math.ceil((currentDate - startDate) / 1000 / 60 / 60 / 4)
+  if (num % 6 === 0 && time.split(' ')[1] === '00:00:00') {
+    num = num + 1
+  }
+  return (num - 1) * 15 + 7.5
 }
 // 温度转化为y轴坐标
 function temperatureToY (temperature) {
