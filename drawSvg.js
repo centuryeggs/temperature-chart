@@ -282,7 +282,8 @@ function hoverPiont (e) {
 }
 
 /* ========================new======================== */
-class temperatureChart {
+class TemperatureChart {
+  static ns = 'http://www.w3.org/2000/svg'
   constructor (rootNode, originData) {
     this.title = originData.title
     this.baseInfo = originData.baseInfo
@@ -341,23 +342,33 @@ class temperatureChart {
   }
   // 添加表格主体
   createMainTable () {
-    const rootSvg = document.createElement('svg')
-    
-    this.drawLine(rootSvg, [0, 0], [], 'black', 2)
-  }
-  // 创建svg子元素
-  addSvgElement (svg, tagName, attributes) {
-    const el = document.createElementNS('http://www.w3.org/2000/svg', tagName)
-    for (let attr in attributes) {
-      el.setAttribute(attr, attributes[attr])
+    const rootSvg = document.createElementNS(TemperatureChart.ns, 'svg')
+    rootSvg.setAttribute('width', '738px')
+    rootSvg.setAttribute('height', '890px')
+    // 8 * 90 + 9 * 2
+    // 720 + 18
+    // 738
+    // this.drawLine(rootSvg, [0, 0], [724, 0], 'black', 2)
+    // this.drawLine(rootSvg, [0, 890], [724, 890], 'black', 2)
+    // this.drawLine(rootSvg, [0, 0], [0, 890], 'black', 2)
+    // this.drawLine(rootSvg, [724, 0], [724, 890], 'black', 2)
+    let d = 'M2 2 L0 888 L722 888 L722 2'
+    for (let i = 0; i < 8; i++) {
+      d +=`L${2 + i*92} 2 M90 2 L90 888`
     }
-    svg.appendChild(el)
+    this.drawPath(rootSvg, d, 'black', 2)
+    this.container.appendChild(rootSvg)
   }
   // 画线
   drawLine (svg, [x1,y1], [x2,y2], color, width) {
-    this.addSvgElement(svg, 'line', {
-      x1, y1, x2, y2, stroke: color, 'stroke-width': width
-    })
+    const el = document.createElementNS(TemperatureChart.ns, 'line')
+    el.setAttribute('x1', x1)
+    el.setAttribute('y1', y1)
+    el.setAttribute('x2', x2)
+    el.setAttribute('y2', y2)
+    el.setAttribute('stroke', color)
+    el.setAttribute('stroke-width', width)
+    svg.appendChild(el)
   }
   // 画折线
   drawPolyline (svg, data, color, width = 2) {
@@ -365,12 +376,21 @@ class temperatureChart {
     for (let i = 0; i < data.length; i++) {
       points += `${data[i][2]} ${data[i][3]},`
     }
-    this.addSvgElement(svg, 'polyline', {
-      points: points.substring(0, points.length - 1),
-      fill: "none",
-      stroke: color,
-      'stroke-width': width
-    })
+    const el = document.createElementNS(TemperatureChart.ns, 'polyline')
+    el.setAttribute('points', points.substring(0, points.length - 1))
+    el.setAttribute('fill', 'none')
+    el.setAttribute('stroke', color)
+    el.setAttribute('stroke-width', width)
+    svg.appendChild(el)
+  }
+  // 画路径
+  drawPath (svg, d, color, width = 2) {
+    const el = document.createElementNS(TemperatureChart.ns, 'path')
+    el.setAttribute('d', d)
+    el.setAttribute('fill', 'none')
+    el.setAttribute('stroke', color)
+    el.setAttribute('stroke-width', width)
+    svg.appendChild(el)
   }
   // 画圆
   drawCircle (svg) {
