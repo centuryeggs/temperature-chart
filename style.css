@@ -14,7 +14,7 @@ body {
 }
 #A4, #A4new {
   width: 210mm;
-  height: 297mm;
+  /* height: 297mm; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,9 +27,13 @@ body {
     transform-origin: 0 0;
   }
 }
-.container {
+#A4 .container {
   width: 724px; /* 720px = 48 * 15 + 4 */
   height: 281mm;
+  background-color: #fff;
+}
+#A4new .container {
+  width: 692px;
   background-color: #fff;
 }
 .title {

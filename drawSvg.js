@@ -343,20 +343,25 @@ class TemperatureChart {
   // 添加表格主体
   createMainTable () {
     const rootSvg = document.createElementNS(TemperatureChart.ns, 'svg')
-    rootSvg.setAttribute('width', '738px')
-    rootSvg.setAttribute('height', '890px')
-    // 8 * 90 + 9 * 2
-    // 720 + 18
-    // 738
-    // this.drawLine(rootSvg, [0, 0], [724, 0], 'black', 2)
-    // this.drawLine(rootSvg, [0, 890], [724, 890], 'black', 2)
-    // this.drawLine(rootSvg, [0, 0], [0, 890], 'black', 2)
-    // this.drawLine(rootSvg, [724, 0], [724, 890], 'black', 2)
-    let d = 'M2 2 L0 888 L722 888 L722 2'
-    for (let i = 0; i < 8; i++) {
-      d +=`L${2 + i*92} 2 M90 2 L90 888`
+    // 横线
+    let rowHeightArr = [25,25,25,36,560,25,25,25,25,25,25,25,25,25]
+    this.drawLine(rootSvg, [2, 1], [690, 1], 'black', 2)
+    let heightCount = 3
+    for (let i = 0; i < rowHeightArr.length; i++) {
+      let lineWidth = (i===rowHeightArr.length -1) ? 2 : 1
+      heightCount += rowHeightArr[i] + lineWidth
+      this.drawLine(rootSvg, [0, heightCount], [692, heightCount], 'black', lineWidth)
     }
-    this.drawPath(rootSvg, d, 'black', 2)
+    // 竖线
+    let colWidthArr = [84, 84, 84, 84, 84, 84, 84, 84]
+    this.drawLine(rootSvg, [1, 0], [1, heightCount], 'black', 2)
+      let widthCount = 3
+    for (let i = 0; i < colWidthArr.length; i++) {
+      widthCount += colWidthArr[i] + 2
+      this.drawLine(rootSvg, [widthCount, 0], [widthCount, heightCount], 'black', 2)
+    }
+    rootSvg.setAttribute('width', widthCount + 1)
+    rootSvg.setAttribute('height', heightCount + 1)
     this.container.appendChild(rootSvg)
   }
   // 画线
