@@ -286,6 +286,7 @@ class TemperatureChart {
   static ns = 'http://www.w3.org/2000/svg'
   constructor (rootNode, originData) {
     this.title = originData.title
+    this.pagination = `第 ${originData.pagination} 页`
     this.baseInfo = originData.baseInfo
     this.startDate = new Date(originData.baseInfo.find(i => i.label === '入院日期').value)
     this.mouthLineData = originData.mouthTemperature.map(i => {
@@ -343,25 +344,28 @@ class TemperatureChart {
   // 添加表格主体
   createMainTable () {
     const rootSvg = document.createElementNS(TemperatureChart.ns, 'svg')
-    // 横线
-    let rowHeightArr = [25,25,25,36,560,25,25,25,25,25,25,25,25,25]
-    this.drawLine(rootSvg, [2, 1], [690, 1], 'black', 2)
+      // 横线
+    let rowHeightArr = [26,26,26,40,560,26,26,26,26,26,26,26,26,26]
+    this.drawLine(rootSvg, [2, 1], [696, 1], 'black', 2)
     let heightCount = 3
     for (let i = 0; i < rowHeightArr.length; i++) {
       let lineWidth = (i===rowHeightArr.length -1) ? 2 : 1
       heightCount += rowHeightArr[i] + lineWidth
-      this.drawLine(rootSvg, [0, heightCount], [692, heightCount], 'black', lineWidth)
+      this.drawLine(rootSvg, [0, heightCount], [698, heightCount], 'black', lineWidth)
     }
     // 竖线
-    let colWidthArr = [84, 84, 84, 84, 84, 84, 84, 84]
+    let colWidthArr = [90, 84, 84, 84, 84, 84, 84, 84]
     this.drawLine(rootSvg, [1, 0], [1, heightCount], 'black', 2)
-      let widthCount = 3
+    let widthCount = 3
     for (let i = 0; i < colWidthArr.length; i++) {
       widthCount += colWidthArr[i] + 2
       this.drawLine(rootSvg, [widthCount, 0], [widthCount, heightCount], 'black', 2)
     }
     rootSvg.setAttribute('width', widthCount + 1)
     rootSvg.setAttribute('height', heightCount + 1)
+    // 文字（固定不变的）
+    
+
     this.container.appendChild(rootSvg)
   }
   // 画线
@@ -373,6 +377,16 @@ class TemperatureChart {
     el.setAttribute('y2', y2)
     el.setAttribute('stroke', color)
     el.setAttribute('stroke-width', width)
+    svg.appendChild(el)
+  }
+  // 写字
+  drawText (svg, [x,y], text, color, fontSize) {
+    const el = document.createElementNS(TemperatureChart.ns, 'text')
+    el.setAttribute('x', x)
+    el.setAttribute('y', y)
+    el.setAttribute('fill', color)
+    el.setAttribute('font-size', fontSize)
+    el.innerText = text
     svg.appendChild(el)
   }
   // 画折线
@@ -403,7 +417,10 @@ class TemperatureChart {
   }
   // 添加页码
   createPagination () {
-
+    const pagination = document.createElement('div')
+    pagination.classList.add('pagination')
+    pagination.innerText = this.pagination
+    this.container.appendChild(pagination)
   }
   // 数据变更
   update (text) {

@@ -8,13 +8,15 @@ html, body {
   box-sizing: border-box;
 }
 body {
+  padding: 10px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
 }
 #A4, #A4new {
   width: 210mm;
-  /* height: 297mm; */
+  height: 297mm;
+  border: 1px solid #000;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,6 +27,7 @@ body {
     page-break-after: always;
     transform: scale(1.2);
     transform-origin: 0 0;
+    border: none;
   }
 }
 #A4 .container {
@@ -33,8 +36,11 @@ body {
   background-color: #fff;
 }
 #A4new .container {
-  width: 692px;
   background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .title {
   text-align: center;
@@ -63,7 +69,7 @@ body {
 }
 .row {
   display: flex;
-  border-bottom: 1px solid #000;
+  /* border-bottom: 1px solid #000; */
 }
 .row:last-child {
   border-bottom: none;
@@ -74,8 +80,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-right: 2px solid #000;
-}
+  }
 .row .cell:last-child {
   border-right: none;
 }

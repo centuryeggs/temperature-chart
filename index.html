@@ -37,6 +37,38 @@
           <div class="value">2021-12-01</div>
         </div>
       </div>
+      <table border="1" cellpadding="2" cellspacing="0">
+        <tr class="row">
+          <td class="label cell">日期</td>
+          <td class="cell">2021-12-01</td>
+          <td class="cell">2021-12-02</td>
+          <td class="cell">2021-12-03</td>
+          <td class="cell">2021-12-04</td>
+          <td class="cell">2021-12-05</td>
+          <td class="cell">2021-12-06</td>
+          <td class="cell">2021-12-07</td>
+        </tr>
+        <tr class="row">
+          <td class="label cell">住院日数</td>
+          <td class="cell">1</td>
+          <td class="cell">2</td>
+          <td class="cell">3</td>
+          <td class="cell">4</td>
+          <td class="cell">5</td>
+          <td class="cell">6</td>
+          <td class="cell">7</td>
+        </tr>
+        <tr class="row">
+          <td class="label cell">手术或产后日数</td>
+          <td class="cell"></td>
+          <td class="cell"></td>
+          <td class="cell"></td>
+          <td class="cell">Ⅱ-0</td>
+          <td class="cell">Ⅱ-1</td>
+          <td class="cell">Ⅳ-0</td>
+          <td class="cell">Ⅳ-1</td>
+        </tr>
+      </table>
       <div class="table">
         <div class="row">
           <div class="label cell">日期</div>
@@ -276,7 +308,7 @@
       <div class="pagination">第 1 页</div>
     </div>
   </div>
-  <div id="A4new"></div>
+  <!-- <div id="A4new"></div> -->
   <script src="./drawSvg.js"></script>
   <script>
     const A4new = document.getElementById('A4new')
@@ -335,10 +367,11 @@
         ['2021-12-06 08:00:00',138],
         ['2021-12-07 08:00:00',160]
       ],
-      moreData: []
+      moreData: [],
+      pagination: 1
     }
-    let a = new TemperatureChart(A4new, originData)
-    a.update('update')
+    // let a = new TemperatureChart(A4new, originData)
+    // a.update('update')
   </script>
 </body>
 </html>
