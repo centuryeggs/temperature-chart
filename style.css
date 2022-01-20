@@ -91,34 +91,6 @@ body {
 .values.x-axis {
   flex-direction: column;
 }
-.up, .down {
-  width: 100%;
-  display: flex;
-  text-align: center;
-}
-.up {
-  border-bottom: 1px solid #000;
-}
-.up div {
-  width: 45px;
-  border-right: 1px solid #000;
-}
-.up div:nth-child(2n) {
-  border-right: 2px solid #000;
-}
-.up div:last-child {
-  border-right: none;
-}
-.down div {
-  width: 15px;
-  border-right: 1px solid #000;
-}
-.down div:nth-child(6n) {
-  border-right: 2px solid #000;
-}
-.down div:last-child {
-  border-right: none;
-}
 .cell.y-axis {
   position: relative;
 }
@@ -191,4 +163,11 @@ body {
   border-width: 5px;
   border-style: solid;
   border-color: #434456 transparent transparent transparent;
+}
+
+td.time {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
