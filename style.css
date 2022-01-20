@@ -14,7 +14,7 @@ body {
   align-items: flex-start;
 }
 #A4, #A4new {
-  width: 210mm;
+  /* width: 210mm; */
   height: 297mm;
   border: 1px solid #000;
   display: flex;
@@ -31,7 +31,7 @@ body {
   }
 }
 #A4 .container {
-  width: 724px; /* 720px = 48 * 15 + 4 */
+  width: 866px; /* 720px = 48 * 15 + 4 */
   height: 281mm;
   background-color: #fff;
 }
@@ -164,10 +164,12 @@ body {
   border-style: solid;
   border-color: #434456 transparent transparent transparent;
 }
-
-td.time {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+td {
+  text-align: center;
+}
+.clock-row td {
+  width: 18px;
+}
+.svg-row {
+  height: 720px;
 }
