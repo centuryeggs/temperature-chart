@@ -102,187 +102,165 @@
           <td>16</td><td>20</td><td>24</td>
         </tr>
         <tr class="svg-row">
-          <td></td>
-          <td colspan="42"></td>
-        </tr>
-      </table>  
-      <div class="table">
-        <div class="row">
-          <div class="label cell y-axis">
-            <div class="icons">
-              <div class="icon">口表
-                <svg width="10" height="10">
-                  <circle r="5" cx="5" cy="5" />
-                </svg>
+          <td>
+            <div class="label cell y-axis">
+              <div class="icons">
+                <div class="icon">口表
+                  <svg width="10" height="10">
+                    <circle r="5" cx="5" cy="5" />
+                  </svg>
+                </div>
+                <div class="icon">腋表
+                  <svg width="10" height="10">
+                    <g stroke="blue" stroke-width="2">
+                      <line x1="0" y1="0" x2="10" y2="10" />
+                      <line x1="0" y1="10" y2="0" x2="10" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="icon">肛表
+                  <svg width="10" height="10">
+                    <circle r="5" cx="5" cy="5" />
+                    <circle r="3.8" cx="5" cy="5" fill="#fff" />
+                  </svg>
+                </div>
+                <div class="icon">心率
+                  <svg width="10" height="10">
+                    <circle r="5" cx="5" cy="5" />
+                    <circle r="5" cx="5" cy="5" fill="red" />
+                    <circle r="3.8" cx="5" cy="5" fill="#fff" />
+                  </svg>
+                </div>
+                <div class="icon">脉搏
+                  <svg width="10" height="10">
+                    <circle r="5" cx="5" cy="5" fill="red" />
+                  </svg>
+                </div>
               </div>
-              <div class="icon">腋表
-                <svg width="10" height="10">
-                  <g stroke="blue" stroke-width="2">
-                    <line x1="0" y1="0" x2="10" y2="10" />
-                    <line x1="0" y1="10" y2="0" x2="10" />
-                  </g>
-                </svg>
+              <div class="pulse">
+                <div>P</div>
+                <div>(次/分)</div>
+                <div class="axis-nums">
+                  <div>160</div>
+                  <div>140</div>
+                  <div>120</div>
+                  <div>100</div>
+                  <div>80</div>
+                  <div>60</div>
+                  <div>40</div>
+                </div>
               </div>
-              <div class="icon">肛表
-                <svg width="10" height="10">
-                  <circle r="5" cx="5" cy="5" />
-                  <circle r="3.8" cx="5" cy="5" fill="#fff" />
-                </svg>
-              </div>
-              <div class="icon">心率
-                <svg width="10" height="10">
-                  <circle r="5" cx="5" cy="5" />
-                  <circle r="5" cx="5" cy="5" fill="red" />
-                  <circle r="3.8" cx="5" cy="5" fill="#fff" />
-                </svg>
-              </div>
-              <div class="icon">脉搏
-                <svg width="10" height="10">
-                  <circle r="5" cx="5" cy="5" fill="red" />
-                </svg>
-              </div>
-            </div>
-            <div class="pulse">
-              <div>P</div>
-              <div>(次/分)</div>
-              <div class="axis-nums">
-                <div>160</div>
-                <div>140</div>
-                <div>120</div>
-                <div>100</div>
-                <div>80</div>
-                <div>60</div>
-                <div>40</div>
-              </div>
-            </div>
-            <div class="temperature">
-              <div>T</div>
-              <div>(°C)</div>
-              <div class="axis-nums">
-                <div>41</div>
-                <div>40</div>
-                <div>39</div>
-                <div>38</div>
-                <div>37</div>
-                <div>36</div>
-                <div>35</div>
+              <div class="temperature">
+                <div>T</div>
+                <div>(°C)</div>
+                <div class="axis-nums">
+                  <div>41</div>
+                  <div>40</div>
+                  <div>39</div>
+                  <div>38</div>
+                  <div>37</div>
+                  <div>36</div>
+                  <div>35</div>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="values" style="position: relative;">
+          </td>
+          <td colspan="42" style="position: relative;">
             <svg id="svg" width="630" height="600" xmlns="http://www.w3.org/2000/svg"></svg>
             <div id="tooltip"></div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="label cell">呼吸</div>
-          <div class="values">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="label cell">血压</div>
-          <div class="values">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="label cell">总入液量</div>
-          <div class="values">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="label cell">大便（次）</div>
-          <div class="values">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="label cell">尿量（ml）</div>
-          <div class="values">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="label cell">其它排出量</div>
-          <div class="values">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="label cell">体重（kg）</div>
-          <div class="values">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="label cell">皮试</div>
-          <div class="values">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="label cell">其它</div>
-          <div class="values">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-          </div>
-        </div>
-      </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="width: 108px;">呼吸</td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+        </tr>
+        <tr>
+          <td style="width: 108px;">血压</td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+        </tr>
+        <tr>
+          <td style="width: 108px;">总入液量</td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+        </tr>
+        <tr>
+          <td style="width: 108px;">大便（次）</td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+        </tr>
+        <tr>
+          <td style="width: 108px;">尿液（ml）</td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+        </tr>
+        <tr>
+          <td style="width: 108px;">其它排出量</td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+        </tr>
+        <tr>
+          <td style="width: 108px;">体重（kg）</td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+        </tr>
+        <tr>
+          <td style="width: 108px;">皮试</td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+        </tr>
+        <tr>
+          <td style="width: 108px;">其它</td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+          <td colspan="6"></td>
+        </tr>
+      </table>  
       <div class="pagination">第 1 页</div>
     </div>
   </div>
