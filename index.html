@@ -37,9 +37,9 @@
           <div class="value">2021-12-01</div>
         </div>
       </div>
-      <table border="1" cellpadding="0" cellspacing="0">
+      <table border="1" cellpadding="0" cellspacing="0" border-collapse="collapse">
         <tr>
-          <td style="width: 108px;">日期</td>
+          <td>日期</td>
           <td colspan="6">2021-12-01</td>
           <td colspan="6">2021-12-02</td>
           <td colspan="6">2021-12-03</td>
@@ -68,7 +68,7 @@
           <td colspan="6">Ⅳ-0</td>
           <td colspan="6">Ⅳ-1</td>
         </tr>
-        <tr class="am-pm-row">
+        <tr>
           <td rowspan="2">时间</td>
           <td colspan="3">上午</td>
           <td colspan="3">下午</td>
@@ -101,67 +101,66 @@
           <td>4</td><td>8</td><td>12</td>
           <td>16</td><td>20</td><td>24</td>
         </tr>
-        <tr class="svg-row">
-          <td>
-            <div class="label cell y-axis">
-              <div class="icons">
-                <div class="icon">口表
-                  <svg width="10" height="10">
-                    <circle r="5" cx="5" cy="5" />
-                  </svg>
-                </div>
-                <div class="icon">腋表
-                  <svg width="10" height="10">
-                    <g stroke="blue" stroke-width="2">
-                      <line x1="0" y1="0" x2="10" y2="10" />
-                      <line x1="0" y1="10" y2="0" x2="10" />
-                    </g>
-                  </svg>
-                </div>
-                <div class="icon">肛表
-                  <svg width="10" height="10">
-                    <circle r="5" cx="5" cy="5" />
-                    <circle r="3.8" cx="5" cy="5" fill="#fff" />
-                  </svg>
-                </div>
-                <div class="icon">心率
-                  <svg width="10" height="10">
-                    <circle r="5" cx="5" cy="5" />
-                    <circle r="5" cx="5" cy="5" fill="red" />
-                    <circle r="3.8" cx="5" cy="5" fill="#fff" />
-                  </svg>
-                </div>
-                <div class="icon">脉搏
-                  <svg width="10" height="10">
-                    <circle r="5" cx="5" cy="5" fill="red" />
-                  </svg>
-                </div>
+        <tr>
+          <td class="y-axis">
+            <div class="icons">
+              <div class="icon">
+                <label>口表</label>
+                <svg width="10" height="10">
+                  <circle r="5" cx="5" cy="5" />
+                </svg>
               </div>
-              <div class="pulse">
-                <div>P</div>
-                <div>(次/分)</div>
-                <div class="axis-nums">
-                  <div>160</div>
-                  <div>140</div>
-                  <div>120</div>
-                  <div>100</div>
-                  <div>80</div>
-                  <div>60</div>
-                  <div>40</div>
-                </div>
+              <div class="icon">腋表
+                <svg width="10" height="10">
+                  <g stroke="blue" stroke-width="2">
+                    <line x1="0" y1="0" x2="10" y2="10" />
+                    <line x1="0" y1="10" y2="0" x2="10" />
+                  </g>
+                </svg>
               </div>
-              <div class="temperature">
-                <div>T</div>
-                <div>(°C)</div>
-                <div class="axis-nums">
-                  <div>41</div>
-                  <div>40</div>
-                  <div>39</div>
-                  <div>38</div>
-                  <div>37</div>
-                  <div>36</div>
-                  <div>35</div>
-                </div>
+              <div class="icon">肛表
+                <svg width="10" height="10">
+                  <circle r="5" cx="5" cy="5" />
+                  <circle r="3.8" cx="5" cy="5" fill="#fff" />
+                </svg>
+              </div>
+              <div class="icon">心率
+                <svg width="10" height="10">
+                  <circle r="5" cx="5" cy="5" />
+                  <circle r="5" cx="5" cy="5" fill="red" />
+                  <circle r="3.8" cx="5" cy="5" fill="#fff" />
+                </svg>
+              </div>
+              <div class="icon">脉搏
+                <svg width="10" height="10">
+                  <circle r="5" cx="5" cy="5" fill="red" />
+                </svg>
+              </div>
+            </div>
+            <div class="pulse">
+              <div>P</div>
+              <div>(次/分)</div>
+              <div class="axis-nums">
+                <div>160</div>
+                <div>140</div>
+                <div>120</div>
+                <div>100</div>
+                <div>80</div>
+                <div>60</div>
+                <div>40</div>
+              </div>
+            </div>
+            <div class="temperature">
+              <div>T</div>
+              <div>(°C)</div>
+              <div class="axis-nums">
+                <div>41</div>
+                <div>40</div>
+                <div>39</div>
+                <div>38</div>
+                <div>37</div>
+                <div>36</div>
+                <div>35</div>
               </div>
             </div>
           </td>
@@ -171,7 +170,7 @@
           </td>
         </tr>
         <tr>
-          <td style="width: 108px;">呼吸</td>
+          <td>呼吸</td>
           <td colspan="6"></td>
           <td colspan="6"></td>
           <td colspan="6"></td>
@@ -181,7 +180,7 @@
           <td colspan="6"></td>
         </tr>
         <tr>
-          <td style="width: 108px;">血压</td>
+          <td>血压</td>
           <td colspan="6"></td>
           <td colspan="6"></td>
           <td colspan="6"></td>
@@ -191,7 +190,7 @@
           <td colspan="6"></td>
         </tr>
         <tr>
-          <td style="width: 108px;">总入液量</td>
+          <td>总入液量</td>
           <td colspan="6"></td>
           <td colspan="6"></td>
           <td colspan="6"></td>
@@ -201,7 +200,7 @@
           <td colspan="6"></td>
         </tr>
         <tr>
-          <td style="width: 108px;">大便（次）</td>
+          <td>大便（次）</td>
           <td colspan="6"></td>
           <td colspan="6"></td>
           <td colspan="6"></td>
@@ -211,7 +210,7 @@
           <td colspan="6"></td>
         </tr>
         <tr>
-          <td style="width: 108px;">尿液（ml）</td>
+          <td>尿液（ml）</td>
           <td colspan="6"></td>
           <td colspan="6"></td>
           <td colspan="6"></td>
@@ -221,7 +220,7 @@
           <td colspan="6"></td>
         </tr>
         <tr>
-          <td style="width: 108px;">其它排出量</td>
+          <td>其它排出量</td>
           <td colspan="6"></td>
           <td colspan="6"></td>
           <td colspan="6"></td>
@@ -231,7 +230,7 @@
           <td colspan="6"></td>
         </tr>
         <tr>
-          <td style="width: 108px;">体重（kg）</td>
+          <td>体重（kg）</td>
           <td colspan="6"></td>
           <td colspan="6"></td>
           <td colspan="6"></td>
@@ -241,7 +240,7 @@
           <td colspan="6"></td>
         </tr>
         <tr>
-          <td style="width: 108px;">皮试</td>
+          <td>皮试</td>
           <td colspan="6"></td>
           <td colspan="6"></td>
           <td colspan="6"></td>
@@ -251,7 +250,7 @@
           <td colspan="6"></td>
         </tr>
         <tr>
-          <td style="width: 108px;">其它</td>
+          <td>其它</td>
           <td colspan="6"></td>
           <td colspan="6"></td>
           <td colspan="6"></td>
@@ -264,8 +263,6 @@
       <div class="pagination">第 1 页</div>
     </div>
   </div>
-
-  <!-- <div id="A4new"></div> -->
   <script src="./drawSvg.js"></script>
   <script>
     const A4new = document.getElementById('A4new')

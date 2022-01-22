@@ -13,10 +13,7 @@ body {
   justify-content: space-between;
   align-items: flex-start;
 }
-#A4, #A4new {
-  /* width: 210mm; */
-  height: 297mm;
-  border: 1px solid #000;
+#A4 {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,16 +28,9 @@ body {
   }
 }
 #A4 .container {
-  width: 866px; /* 720px = 48 * 15 + 4 */
+  width: 866px;
   height: 281mm;
   background-color: #fff;
-}
-#A4new .container {
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 .title {
   text-align: center;
@@ -58,52 +48,41 @@ body {
   display: flex;
   margin: 0 10px;
 }
-.label {
+.head-form .item .label {
   font-weight: bold;
 }
 .head-form .item .label::after{
   content: '：';
 }
-.table {
+table {
   border: 2px solid #000;
 }
-.row {
+table tr td {
+  text-align: center;
+}
+table tr td:first-child {
+  width: 108px;
+}
+table tr.clock-row td {
+  width: 18px;
+}
+table tr td.y-axis {
+  width: 100%;
+  height: 720px;
   display: flex;
-  border-bottom: 1px solid #000;
+  justify-content: space-between;
+  align-items: center;
 }
-.row:last-child {
-  border-bottom: none;
+table tr td.y-axis .icons {
+  align-self: flex-end;
 }
-.cell {
-  width: 90px;
-  min-height: 20px;
+table tr td.y-axis .icons > .icon {
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-right: 2px solid #000;
 }
-.row .cell:last-child {
-  border-right: none;
-}
-.values {
-  display: flex;
-}
-.values.x-axis {
-  flex-direction: column;
-}
-.cell.y-axis {
-  position: relative;
-}
-.icons {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  cursor: pointer;
-}
-.label .cell .y-axis .icons > .icon {
-  color: red;
-}
-.pulse {
+table tr td.y-axis .pulse {
   flex: 1;
   height: 100%;
   border-right: 1px solid #000;
@@ -113,7 +92,7 @@ body {
   position: relative;
   padding-right: 2px;
 }
-.temperature {
+table tr td.y-axis .temperature {
   width: 30px;
   height: 100%;
   text-align: right;
@@ -121,7 +100,7 @@ body {
   position: relative;
   padding-right: 2px;
 }
-.axis-nums {
+table tr td.y-axis .axis-nums {
   position: absolute;
   top: 67.5px;
   height: calc(100% - 135px);
@@ -163,13 +142,4 @@ body {
   border-width: 5px;
   border-style: solid;
   border-color: #434456 transparent transparent transparent;
-}
-td {
-  text-align: center;
-}
-.clock-row td {
-  width: 18px;
-}
-.svg-row {
-  height: 720px;
 }
