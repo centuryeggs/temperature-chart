@@ -1,6 +1,6 @@
-const width = 630 // 画布宽度
-const height = 600  // 画布高度
-const w = 15 // 小方格宽度
+const width = 756 // 画布宽度
+const height = 720  // 画布高度
+const w = 18 // 小方格宽度
 const data = { // 数据
   title: 'xxxx医院',
   baseInfo: [
@@ -133,9 +133,9 @@ function drawGrid (svg) {
       })
     } else {
       addSvgElement(svg, 'line', {
-        x1: (i-1)*w + (w-0.5),
+        x1: (i-1)*w + (w-1),
         y1: 0,
-        x2: (i-1)*w + (w-0.5),
+        x2: (i-1)*w + (w-1),
         y2: height,
         stroke: 'black',
         'stroke-width': 1
@@ -250,7 +250,7 @@ function timeToX (time) {
   if (num % 6 === 0 && time.split(' ')[1] === '00:00:00') {
     num = num + 1
   }
-  return (num - 1) * 15 + 7.5
+  return (num - 1) * 18 + 9
 }
 // 温度转化为y轴坐标
 function temperatureToY (temperature) {

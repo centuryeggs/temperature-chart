@@ -101,7 +101,7 @@
           <td>4</td><td>8</td><td>12</td>
           <td>16</td><td>20</td><td>24</td>
         </tr>
-        <tr>
+        <tr class="main-row">
           <td class="y-axis">
             <div class="icons">
               <div class="icon">
@@ -164,9 +164,9 @@
               </div>
             </div>
           </td>
-          <td colspan="42" style="position: relative;">
-            <svg id="svg" width="630" height="600" xmlns="http://www.w3.org/2000/svg"></svg>
+          <td colspan="42" class="svg-container">
             <div id="tooltip"></div>
+            <svg id="svg" height="720" width="100%" xmlns="http://www.w3.org/2000/svg"></svg>
           </td>
         </tr>
         <tr>
@@ -264,7 +264,7 @@
     </div>
   </div>
   <script src="./drawSvg.js"></script>
-  <script>
+  <!-- <script>
     const A4new = document.getElementById('A4new')
     const originData = { // 数据
       title: 'xxxx医院体温单',
@@ -324,8 +324,8 @@
       moreData: [],
       pagination: 1
     }
-    // let a = new TemperatureChart(A4new, originData)
-    // a.update('update')
-  </script>
+    let a = new TemperatureChart(A4new, originData)
+    a.update('update')
+  </script> -->
 </body>
 </html>
