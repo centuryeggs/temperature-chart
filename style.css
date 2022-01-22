@@ -8,24 +8,29 @@ html, body {
   box-sizing: border-box;
 }
 body {
-  padding: 10px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
 }
-#A4 {
+.A4 {
+  width: 210mm;
+  height: 297mm;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 @media print {
   body { display: block; }
-  #A4 {
+  .A4 {
     page-break-after: always;
     transform: scale(1.2);
     transform-origin: 0 0;
-    border: none;
   }
+}
+.content {
+  width: 724px; /* 720px = 48 * 15 + 4 */
+  height: 281mm;
+  background-color: #fff;
 }
 .title {
   text-align: center;
@@ -43,43 +48,132 @@ body {
   display: flex;
   margin: 0 10px;
 }
-.head-form .item .label {
+.label {
   font-weight: bold;
 }
 .head-form .item .label::after{
   content: '：';
 }
-table {
+.table {
   border: 2px solid #000;
 }
-table tr td {
-  text-align: center;
-  padding: 0;
-  margin: 0;
-}
-table tr td:first-child {
-  width: 108px;
-}
-table tr.clock-row td {
-  width: 18px;
-}
-table tr td.y-axis {
-  width: 100%;
-  height: 720px;
+.row {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  border-bottom: 1px solid #000;
 }
-table tr td.y-axis .icons {
-  align-self: flex-end;
+.row:last-child {
+  border-bottom: none;
 }
-table tr td.y-axis .icons > .icon {
-  cursor: pointer;
+.cell {
+  width: 90px;
+  min-height: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
-table tr td.y-axis .pulse {
+.cell:before {
+  position: absolute;
+  top: -2px;
+  right: 0;
+  content: '';
+  height: 120%;
+  border-right: 2px solid #000;
+  transform-origin: 0 0;
+  overflow: hidden;
+}
+.cell:last-child:before {
+  border: none;
+}
+.values {
+  display: flex;
+}
+.values.x-axis {
+  flex-direction: column;
+}
+.up, .down {
+  width: 100%;
+  display: flex;
+  text-align: center;
+}
+.up {
+  border-bottom: 1px solid #000;
+}
+.up div {
+  width: 45px;
+  /* border-right: 1px solid #000; */
+  position: relative;
+}
+.up div:before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  content: '';
+  height: 110%;
+  border-right: 1px solid #000;
+  transform-origin: 0 0;
+  overflow: hidden;
+}
+.up div:last-child:before {
+  border: none;
+}
+.up div:nth-child(2n) {
+  position: relative;
+}
+.up div:nth-child(2n):before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  content: '';
+  height: 110%;
+  border-right: 2px solid #000;
+  transform-origin: 0 0;
+  overflow: hidden;
+}
+.up div:last-child:before {
+  border: none;
+}
+.down div {
+  width: 15px;
+  letter-spacing: -1px;
+  padding-right: 1.5px;
+  position: relative;
+}
+.down div:before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  content: '';
+  height: 110%;
+  border-right: 1px solid #000;
+  transform-origin: 0 0;
+  overflow: hidden;
+}
+.down div:nth-child(6n) {
+  position: relative;
+}
+.down div:nth-child(6n):before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  content: '';
+  height: 110%;
+  border-right: 2px solid #000;
+  transform-origin: 0 0;
+  overflow: hidden;
+}
+.down div:last-child:before {
+  border: none;
+}
+.cell.y-axis {
+  position: relative;
+}
+.icons {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.pulse {
   flex: 1;
   height: 100%;
   border-right: 1px solid #000;
@@ -89,7 +183,7 @@ table tr td.y-axis .pulse {
   position: relative;
   padding-right: 2px;
 }
-table tr td.y-axis .temperature {
+.temperature {
   width: 30px;
   height: 100%;
   text-align: right;
@@ -97,7 +191,7 @@ table tr td.y-axis .temperature {
   position: relative;
   padding-right: 2px;
 }
-table tr td.y-axis .axis-nums {
+.axis-nums {
   position: absolute;
   top: 67.5px;
   height: calc(100% - 135px);

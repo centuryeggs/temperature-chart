@@ -1,6 +1,6 @@
-const width = 756 // 画布宽度
-const height = 720  // 画布高度
-const w = 18 // 小方格宽度
+const width = 630 // 画布宽度
+const height = 600  // 画布高度
+const w = 15 // 小方格宽度
 const data = { // 数据
   title: 'xxxx医院',
   baseInfo: [
@@ -9,7 +9,7 @@ const data = { // 数据
     { label: '科别', value: '骨科' },
     { label: '床号', value: '001' },
     { label: '住院病历号', value: '123456' },
-    { label: '入院日期', value: '2021-12-01 00:00:00' }
+    { label: '入院日期', value: '2021-12-01' }
   ],
   mouthLineData: [
     ['2021-12-01 04:00:01',36.2],
@@ -57,7 +57,7 @@ const data = { // 数据
     ['2021-12-07 08:00:00',160]
   ]
 }
-const startDate = new Date(data.baseInfo.find(i => i.label === '入院日期').value)
+const startDate = new Date(data.baseInfo.find(i => i.label === '入院日期').value + ' 00:00:00')
 const mouthLineData = data.mouthLineData.map(i => {
   return [i[0], i[1], timeToX(i[0]), temperatureToY(i[1])]
 })
@@ -75,9 +75,9 @@ const heartLineData = data.heartLineData.map(i => {
 })
 const tooltip = document.getElementById('tooltip')
 const svg = document.getElementById('svg')
-gridInit(svg)
+init(svg)
 // 初始化
-function gridInit(svg) {
+function init(svg) {
   svg.addEventListener('mouseenter', function(e) {
     svg.addEventListener('mousemove', hoverPiont)
   })
@@ -133,9 +133,9 @@ function drawGrid (svg) {
       })
     } else {
       addSvgElement(svg, 'line', {
-        x1: (i-1)*w + (w-1),
+        x1: (i-1)*w + (w-0.5),
         y1: 0,
-        x2: (i-1)*w + (w-1),
+        x2: (i-1)*w + (w-0.5),
         y2: height,
         stroke: 'black',
         'stroke-width': 1
@@ -250,7 +250,7 @@ function timeToX (time) {
   if (num % 6 === 0 && time.split(' ')[1] === '00:00:00') {
     num = num + 1
   }
-  return (num - 1) * 18 + 9
+  return (num - 1) * 15 + 7.5
 }
 // 温度转化为y轴坐标
 function temperatureToY (temperature) {
@@ -280,150 +280,15 @@ function hoverPiont (e) {
     tooltip.style.visibility = 'hidden'
   }
 }
-
-/* ========================new======================== */
-class TemperatureChart {
-  static ns = 'http://www.w3.org/2000/svg'
-  constructor (rootNode, originData) {
-    this.title = originData.title
-    this.pagination = `第 ${originData.pagination} 页`
-    this.baseInfo = originData.baseInfo
-    this.startDate = new Date(originData.baseInfo.find(i => i.label === '入院日期').value)
-    this.mouthLineData = originData.mouthTemperature.map(i => {
-      return [i[0], i[1], timeToX(i[0]), temperatureToY(i[1])]
-    })
-    this.armpitLineData = originData.armpitTemperature.map(i => {
-      return [i[0], i[1], timeToX(i[0]), temperatureToY(i[1])]
-    })
-    this.anusLineData = originData.anusTemperature.map(i => {
-      return [i[0], i[1], timeToX(i[0]), temperatureToY(i[1])]
-    })
-    this.pulseLineData = originData.pulseFrequency.map(i => {
-      return [i[0], i[1], timeToX(i[0]), frequencyToY(i[1])]
-    })
-    this.heartLineData = originData.heartFrequency.map(i => {
-      return [i[0], i[1], timeToX(i[0]), frequencyToY(i[1])]
-    })
-    this.container = document.createElement('div')
-    this.container.classList.add('container')
-    this.tooltip = document.createElement('div')
-    this.tooltip.classList.add('tooltip')
-    rootNode.appendChild(this.container)
-    rootNode.appendChild(this.tooltip)
-    this.init()
-  }
-  // 初始化
-  init () {
-    this.createTitle()
-    this.createHeadForm()
-    this.createMainTable()
-    this.createPagination()
-  }
-  // 添加标题
-  createTitle () {
-    const title = document.createElement('div')
-    title.classList.add('title')
-    title.innerText = this.title
-    this.container.appendChild(title)
-  }
-  // 添加表头form 标题与表格之间的基础信息
-  createHeadForm () {
-    const headForm = document.createElement('div')
-    headForm.classList.add('head-form')
-    let innerHTML = ''
-    this.baseInfo.forEach(i => {
-      innerHTML += `
-        <div class="item">
-          <div class="label">${i.label}</div>
-          <div class="value">${i.value}</div>
-        </div>`
-    })
-    headForm.innerHTML = innerHTML
-    this.container.appendChild(headForm)
-  }
-  // 添加表格主体
-  createMainTable () {
-    const rootSvg = document.createElementNS(TemperatureChart.ns, 'svg')
-      // 横线
-    let rowHeightArr = [26,26,26,40,560,26,26,26,26,26,26,26,26,26]
-    this.drawLine(rootSvg, [2, 1], [696, 1], 'black', 2)
-    let heightCount = 3
-    for (let i = 0; i < rowHeightArr.length; i++) {
-      let lineWidth = (i===rowHeightArr.length -1) ? 2 : 1
-      heightCount += rowHeightArr[i] + lineWidth
-      this.drawLine(rootSvg, [0, heightCount], [698, heightCount], 'black', lineWidth)
-    }
-    // 竖线
-    let colWidthArr = [90, 84, 84, 84, 84, 84, 84, 84]
-    this.drawLine(rootSvg, [1, 0], [1, heightCount], 'black', 2)
-    let widthCount = 3
-    for (let i = 0; i < colWidthArr.length; i++) {
-      widthCount += colWidthArr[i] + 2
-      this.drawLine(rootSvg, [widthCount, 0], [widthCount, heightCount], 'black', 2)
-    }
-    rootSvg.setAttribute('width', widthCount + 1)
-    rootSvg.setAttribute('height', heightCount + 1)
-    // 文字（固定不变的）
-    
-
-    this.container.appendChild(rootSvg)
-  }
-  // 画线
-  drawLine (svg, [x1,y1], [x2,y2], color, width) {
-    const el = document.createElementNS(TemperatureChart.ns, 'line')
-    el.setAttribute('x1', x1)
-    el.setAttribute('y1', y1)
-    el.setAttribute('x2', x2)
-    el.setAttribute('y2', y2)
-    el.setAttribute('stroke', color)
-    el.setAttribute('stroke-width', width)
-    svg.appendChild(el)
-  }
-  // 写字
-  drawText (svg, [x,y], text, color, fontSize) {
-    const el = document.createElementNS(TemperatureChart.ns, 'text')
-    el.setAttribute('x', x)
-    el.setAttribute('y', y)
-    el.setAttribute('fill', color)
-    el.setAttribute('font-size', fontSize)
-    el.innerText = text
-    svg.appendChild(el)
-  }
-  // 画折线
-  drawPolyline (svg, data, color, width = 2) {
-    let points = ''
-    for (let i = 0; i < data.length; i++) {
-      points += `${data[i][2]} ${data[i][3]},`
-    }
-    const el = document.createElementNS(TemperatureChart.ns, 'polyline')
-    el.setAttribute('points', points.substring(0, points.length - 1))
-    el.setAttribute('fill', 'none')
-    el.setAttribute('stroke', color)
-    el.setAttribute('stroke-width', width)
-    svg.appendChild(el)
-  }
-  // 画路径
-  drawPath (svg, d, color, width = 2) {
-    const el = document.createElementNS(TemperatureChart.ns, 'path')
-    el.setAttribute('d', d)
-    el.setAttribute('fill', 'none')
-    el.setAttribute('stroke', color)
-    el.setAttribute('stroke-width', width)
-    svg.appendChild(el)
-  }
-  // 画圆
-  drawCircle (svg) {
-
-  }
-  // 添加页码
-  createPagination () {
-    const pagination = document.createElement('div')
-    pagination.classList.add('pagination')
-    pagination.innerText = this.pagination
-    this.container.appendChild(pagination)
-  }
-  // 数据变更
-  update (text) {
-    console.log(text)
+// 节流函数
+function throttle (fn) {
+  let isRun = false
+  return function () {
+    if (isRun) return
+    isRun = true
+    setTimeout(() => {
+      fn.apply(this, arguments)
+      isRun = false
+    }, 100)
   }
 }
