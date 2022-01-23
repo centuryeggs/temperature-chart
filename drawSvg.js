@@ -55,6 +55,13 @@ const data = { // 数据
     ['2021-12-05 08:00:00',130],
     ['2021-12-06 08:00:00',138],
     ['2021-12-07 08:00:00',160]
+  ],
+  textRemarks: [
+    ['2021-12-01 08:00:00', '手术入院 — 八时零分'],
+    ['2021-12-02 08:00:00', '手术'],
+    ['2021-12-06 08:00:00', '分娩'],
+    ['2021-12-06 12:00:00', '手术'],
+    ['2021-12-06 16:12:00', '手术分娩 — 十六时十二分']
   ]
 }
 const startDate = new Date(data.baseInfo.find(i => i.label === '入院日期').value + ' 00:00:00')
@@ -72,6 +79,9 @@ const pulseLineData = data.pulseLineData.map(i => {
 })
 const heartLineData = data.heartLineData.map(i => {
   return [i[0], i[1], timeToX(i[0]), frequencyToY(i[1])]
+})
+const textData = data.textRemarks.map(i => {
+  return [timeToX(i[0]), i[1]]
 })
 const tooltip = document.getElementById('tooltip')
 const svg = document.getElementById('svg')
@@ -95,6 +105,7 @@ function init(svg) {
   drawPoints(svg, anusLineData, '肛表')
   drawPoints(svg, heartLineData, '心率')
   drawPoints(svg, pulseLineData, '脉搏')
+  drawTextRemarks(svg, textData)
 }
 // 绘制网格
 function drawGrid (svg) {
@@ -243,6 +254,18 @@ function drawPoints (svg, data, style = '口表') {
     }
   }
 }
+// 绘制文字说明
+function drawTextRemarks (svg, data) {
+  for (let i = 0; i < data.length; i++) {
+    const [x, text] = [data[i][0], data[i][1]]
+    addSvgElement(svg, 'text', {
+      x: x,
+      y: 0,
+      'font-size': '15',
+      fill: 'black'
+    }, text)
+  }
+}
 // 时间日期转化为x轴坐标
 function timeToX (time) {
   const currentDate = new Date(time)
@@ -261,10 +284,13 @@ function frequencyToY (frequency) {
   return Math.floor(600 - (frequency - 20) * (75 / 20))
 }
 // 创建svg子元素
-function addSvgElement (svg, tagName, attributes) {
+function addSvgElement (svg, tagName, attributes, innerText) {
   const el = document.createElementNS('http://www.w3.org/2000/svg', tagName)
   for (let attr in attributes) {
     el.setAttribute(attr, attributes[attr])
+  }
+  if (innerText) {
+    el.textContent = innerText
   }
   svg.appendChild(el)
 }

@@ -284,3 +284,9 @@ body {
   border-style: solid;
   border-color: #434456 transparent transparent transparent;
 }
+text {
+  font-size: 12px;
+  font-weight: 200;
+  stroke: red;
+  writing-mode: tb;
+}
