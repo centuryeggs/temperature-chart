@@ -288,5 +288,7 @@ text {
   font-size: 12px;
   font-weight: 200;
   stroke: red;
+  stroke-width: 0.5;
   writing-mode: tb;
+  letter-spacing: 3.1px;
 }
