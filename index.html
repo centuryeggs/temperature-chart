@@ -8,342 +8,107 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="A4">
-    <div class="content">
-      <div class="title">xxxx医院体温单</div>
-      <div class="head-form">
-        <div class="item">
-          <div class="label">姓名</div>
-          <div class="value">张三</div>
-        </div>
-        <div class="item">
-          <div class="label">年龄</div>
-          <div class="value">25</div>
-        </div>
-        <div class="item">
-          <div class="label">科别</div>
-          <div class="value">骨科</div>
-        </div>
-        <div class="item">
-          <div class="label">床号</div>
-          <div class="value">001</div>
-        </div>
-        <div class="item">
-          <div class="label">住院病历号</div>
-          <div class="value">123456</div>
-        </div>
-        <div class="item">
-          <div class="label">入院日期</div>
-          <div class="value">2021-12-01</div>
-        </div>
-      </div>
-      <div class="table">
-        <div class="row">
-          <div class="label cell">日期</div>
-          <div class="values">
-            <div class="cell">2021-12-01</div>
-            <div class="cell">2021-12-02</div>
-            <div class="cell">2021-12-03</div>
-            <div class="cell">2021-12-04</div>
-            <div class="cell">2021-12-05</div>
-            <div class="cell">2021-12-06</div>
-            <div class="cell">2021-12-07</div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="label cell">住院日数</div>
-          <div class="values">
-            <div class="cell">1</div>
-            <div class="cell">2</div>
-            <div class="cell">3</div>
-            <div class="cell">4</div>
-            <div class="cell">5</div>
-            <div class="cell">6</div>
-            <div class="cell">7</div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="label cell">手术或产后日数</div>
-          <div class="values">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell">Ⅱ-0</div>
-            <div class="cell">Ⅱ-1</div>
-            <div class="cell">Ⅳ-0</div>
-            <div class="cell">Ⅳ-1</div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="label cell">时间</div>
-          <div class="values x-axis">
-            <div class="up">
-              <div>上午</div><div>下午</div>
-              <div>上午</div><div>下午</div>
-              <div>上午</div><div>下午</div>
-              <div>上午</div><div>下午</div>
-              <div>上午</div><div>下午</div>
-              <div>上午</div><div>下午</div>
-              <div>上午</div><div>下午</div>
-            </div>
-            <div class="down">
-              <div>4</div><div>8</div><div>12</div><div>16</div><div>20</div><div>24</div>
-              <div>4</div><div>8</div><div>12</div><div>16</div><div>20</div><div>24</div>
-              <div>4</div><div>8</div><div>12</div><div>16</div><div>20</div><div>24</div>
-              <div>4</div><div>8</div><div>12</div><div>16</div><div>20</div><div>24</div>
-              <div>4</div><div>8</div><div>12</div><div>16</div><div>20</div><div>24</div>
-              <div>4</div><div>8</div><div>12</div><div>16</div><div>20</div><div>24</div>
-              <div>4</div><div>8</div><div>12</div><div>16</div><div>20</div><div>24</div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="label cell y-axis">
-            <div class="icons">
-              <div class="icon">口表
-                <svg width="10" height="10">
-                  <circle r="5" cx="5" cy="5" />
-                </svg>
-              </div>
-              <div class="icon">腋表
-                <svg width="10" height="10">
-                  <g stroke="blue" stroke-width="2">
-                    <line x1="0" y1="0" x2="10" y2="10" />
-                    <line x1="0" y1="10" y2="0" x2="10" />
-                  </g>
-                </svg>
-              </div>
-              <div class="icon">肛表
-                <svg width="10" height="10">
-                  <circle r="5" cx="5" cy="5" />
-                  <circle r="3.8" cx="5" cy="5" fill="#fff" />
-                </svg>
-              </div>
-              <div class="icon">心率
-                <svg width="10" height="10">
-                  <circle r="5" cx="5" cy="5" />
-                  <circle r="5" cx="5" cy="5" fill="red" />
-                  <circle r="3.8" cx="5" cy="5" fill="#fff" />
-                </svg>
-              </div>
-              <div class="icon">脉搏
-                <svg width="10" height="10">
-                  <circle r="5" cx="5" cy="5" fill="red" />
-                </svg>
-              </div>
-            </div>
-            <div class="pulse">
-              <div>P</div>
-              <div>(次/分)</div>
-              <div class="axis-nums">
-                <div>160</div>
-                <div>140</div>
-                <div>120</div>
-                <div>100</div>
-                <div>80</div>
-                <div>60</div>
-                <div>40</div>
-              </div>
-            </div>
-            <div class="temperature">
-              <div>T</div>
-              <div>(°C)</div>
-              <div class="axis-nums">
-                <div>41</div>
-                <div>40</div>
-                <div>39</div>
-                <div>38</div>
-                <div>37</div>
-                <div>36</div>
-                <div>35</div>
-              </div>
-            </div>
-          </div>
-          <div class="values" style="position: relative;">
-            <svg id="svg" width="630" height="600" xmlns="http://www.w3.org/2000/svg"></svg>
-            <div id="tooltip"></div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="label cell">呼吸(次/分)</div>
-          <div class="values">
-            <div class="min-cell"><div class="top">20</div></div>
-            <div class="min-cell"><div class="bottom">30</div></div>
-            <div class="min-cell"><div class="bottom">30</div></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-            <div class="min-cell"></div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="label cell">血压(mmHg)</div>
-          <div class="values">
-            <div class="half-cell">138/87</div>
-            <div class="half-cell">139/89</div>
-            <div class="half-cell">139/89</div>
-            <div class="half-cell">139/89</div>
-            <div class="half-cell">138/87</div>
-            <div class="half-cell"></div>
-            <div class="half-cell"></div>
-            <div class="half-cell"></div>
-            <div class="half-cell">138/87</div>
-            <div class="half-cell"></div>
-            <div class="half-cell"></div>
-            <div class="half-cell"></div>
-            <div class="half-cell"></div>
-            <div class="half-cell"></div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="label cell">总入液量(ml)</div>
-          <div class="values">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="label cell">大便(次)</div>
-          <div class="values">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="label cell">尿量(ml)</div>
-          <div class="values">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="label cell">其它排出量</div>
-          <div class="values">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="label cell">体重(kg)</div>
-          <div class="values">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="label cell">皮试</div>
-          <div class="values">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="label cell">血糖(mmol/L)</div>
-          <div class="values">
-            <div class="one-third-cell"></div>
-            <div class="one-third-cell"></div>
-            <div class="one-third-cell"></div>
-            <div class="one-third-cell"></div>
-            <div class="one-third-cell"></div>
-            <div class="one-third-cell"></div>
-            <div class="one-third-cell"></div>
-            <div class="one-third-cell"></div>
-            <div class="one-third-cell"></div>
-            <div class="one-third-cell"></div>
-            <div class="one-third-cell"></div>
-            <div class="one-third-cell"></div>
-            <div class="one-third-cell"></div>
-            <div class="one-third-cell"></div>
-            <div class="one-third-cell"></div>
-            <div class="one-third-cell"></div>
-            <div class="one-third-cell"></div>
-            <div class="one-third-cell"></div>
-            <div class="one-third-cell"></div>
-            <div class="one-third-cell"></div>
-            <div class="one-third-cell"></div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="label cell">其它</div>
-          <div class="values">
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-            <div class="cell"></div>
-          </div>
-        </div>
-      </div>
-      <div class="pagination">第 1 页</div>
-    </div>
-  </div>
+  <div class="A4"></div>
   <script src="./drawSvg.js"></script>
+  <script>
+    const el = document.getElementsByClassName('A4')[0]
+    const originData = { // 原始数据
+      title: 'xxxx医院体温单',
+      baseInfo: [
+        { label: '姓名', value: '张三' },
+        { label: '年龄', value: '25' },
+        { label: '科别', value: '骨科' },
+        { label: '床号', value: '001' },
+        { label: '住院病历号', value: '123456' },
+        { label: '入院日期', value: '2021-12-01' }
+      ],
+      tableHeadData: [
+        { '日期': ['2021-12-01', '2021-12-02', '2021-12-03', '2021-12-04', '2021-12-05', '2021-12-06', '2021-12-07'] },
+        { '住院日数': ['1', '2', '3', '4', '5', '6', '7'] },
+        { '手术或产后日数': ['', '', '', 'Ⅱ-0', 'Ⅱ-1', 'Ⅳ-0', 'Ⅳ-1'] }
+      ],
+      tableFootData: [
+        { '呼吸(次/分)': [
+          [20,30,20,30,30,20],
+          ['',30,20,30,30,20],
+          ['',30,'',30,30,20],
+          [20,'','','','',20],
+          ['','','','','',''],
+          ['','','','','',25],
+          ['','','','','','']
+        ]},
+        { '血压(mmHg)': [
+          ['138/87', '138/87'],
+          ['138/87', '138/87'],
+          ['', '138/87'],
+          ['138/87', '138/87'],
+          ['138/87', ''],
+          ['138/87', '138/87'],
+          ['138/87', '138/87']
+        ] },
+        { '总入液量(ml)': ['', '', '', '', '', '', ''] },
+        { '大便(次)': ['', '', '', '', '', '', ''] },
+        { '尿量(ml)': ['', '', '', '', '', '', ''] },
+        { '其它排出量': ['', '', '', '', '', '', ''] },
+        { '体重(kg)': ['', '', '', '', '', '', ''] },
+        { '皮试': ['', '', '', '', '', '', ''] },
+        { '血糖(mmol/L)': [[1,2,3], [1,2,3], [1,2,3], [1,2,3], [1,2,3], [1,2,3], [1,2,3]] },
+        { '其它': ['', '', '', '', '', '', ''] }
+      ],
+      mouthTemperature: [
+        ['2021-12-01 04:00:01',36.2],
+        ['2021-12-02 00:00:00',36.5],
+        ['2021-12-03 12:00:00',36.3],
+        ['2021-12-04 16:00:00',37.1],
+        ['2021-12-05 20:00:00',37],
+        ['2021-12-06 23:59:59',37.2],
+        ['2021-12-07 24:00:00',36.9]
+      ],
+      armpitTemperature: [
+        ['2021-12-01 16:00:00',38.2],
+        ['2021-12-02 16:00:00',38],
+        ['2021-12-03 16:00:00',37.8],
+        ['2021-12-04 16:00:00',37.6],
+        ['2021-12-05 16:00:00',37.4],
+        ['2021-12-06 16:00:00',37.9],
+        ['2021-12-07 16:00:00',36.5]
+      ],
+      anusTemperature: [
+        ['2021-12-01 04:00:00',37.1],
+        ['2021-12-02 08:00:00',37.4],
+        ['2021-12-03 12:00:00',37.3],
+        ['2021-12-04 16:00:00',38.2],
+        ['2021-12-05 20:00:00',38.4],
+        ['2021-12-06 24:00:00',38.1],
+        ['2021-12-07 16:00:00',38.4]
+      ],
+      pulseFrequency: [
+        ['2021-12-01 08:00:00',140],
+        ['2021-12-02 08:00:00',120],
+        ['2021-12-03 08:00:00',114],
+        ['2021-12-04 08:00:00',114],
+        ['2021-12-05 08:00:00',120],
+        ['2021-12-06 08:00:00',128],
+        ['2021-12-07 08:00:00',130]
+      ],
+      heartFrequency: [
+        ['2021-12-01 08:00:00',110],
+        ['2021-12-02 08:00:00',130],
+        ['2021-12-03 08:00:00',120],
+        ['2021-12-04 08:00:00',110],
+        ['2021-12-05 08:00:00',110],
+        ['2021-12-06 08:00:00',118],
+        ['2021-12-07 08:00:00',140]
+      ],
+      textRemarks: [
+        ['2021-12-01 08:00:00', '手术入院—八时零分'],
+        ['2021-12-02 08:00:00', '手术'],
+        ['2021-12-06 08:00:00', '分娩'],
+        ['2021-12-06 12:00:00', '手术'],
+        ['2021-12-06 16:12:00', '手术分娩—十六时十二分']
+      ]
+    }
+    const chart = new TemperatureChart(el, originData)
+  </script>
 </body>
 </html>
