@@ -12,7 +12,7 @@ body {
   justify-content: space-between;
   align-items: flex-start;
 }
-.A4 {
+#A4 {
   width: 210mm;
   height: 297mm;
   display: flex;
