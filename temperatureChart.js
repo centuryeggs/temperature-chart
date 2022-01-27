@@ -25,6 +25,7 @@ class TemperatureChart {
     this.textData = originData.textRemarks.map(i => {
       return [this.timeToX(i[0]), i[1]]
     })
+    this.pointsInfo = []
     this.container = document.createElement('div')
     this.container.classList.add('container')
     rootNode.appendChild(this.container)
@@ -278,15 +279,19 @@ class TemperatureChart {
   }
   // 绘制点
   drawPoints (svg, data, style = '口表') {
+    this.pointsInfo = this.pointsInfo.concat(data)
     const pointSize = 5
     for (let i = 0; i < data.length; i++) {
       const [centerX, centerY] = [data[i][2], data[i][3]]
+      let overlappingPoints = this.pointsInfo.filter(item => item[2] === centerX && item[3] === centerY)
+      let dataTips
       switch (style) {
         case '口表': // 口表，黑色实心圆
           data[i][1] = '口表：' + data[i][1] + ' °C'
+          dataTips = overlappingPoints.map(item => item[1]).join('\n')
           this.addSvgElement(svg, 'circle', {
             class: 'point',
-            'data-tip': data[i],
+            'data-tip': [data[i][0], dataTips, data[i][2], data[i][3]],
             cx: centerX,
             cy: centerY,
             r: pointSize,
@@ -295,6 +300,7 @@ class TemperatureChart {
           break
         case '腋表': // 腋表，蓝色交叉
           data[i][1] = '腋表：' + data[i][1] + ' °C'
+          dataTips = overlappingPoints.map(item => item[1]).join('\n')
           const diff = pointSize
           // const diff = Math.sqrt(Math.pow(pointSize, 2) / 2)
           this.addSvgElement(svg, 'line', {
@@ -316,7 +322,7 @@ class TemperatureChart {
           // 透明的hover区域
           this.addSvgElement(svg, 'circle', {
             class: 'point',
-            'data-tip': data[i],
+            'data-tip': [data[i][0], dataTips, data[i][2], data[i][3]],
             cx: centerX,
             cy: centerY,
             r: pointSize + 1,
@@ -326,9 +332,10 @@ class TemperatureChart {
           break
         case '肛表': // 肛表，黑色空心圆
           data[i][1] = '肛表：' + data[i][1] + ' °C'
+          dataTips = overlappingPoints.map(item => item[1]).join('\n')
           this.addSvgElement(svg, 'circle', {
             class: 'point',
-            'data-tip': data[i],
+            'data-tip': [data[i][0], dataTips, data[i][2], data[i][3]],
             cx: centerX,
             cy: centerY,
             r: pointSize,
@@ -338,9 +345,10 @@ class TemperatureChart {
           break
         case '心率': // 心率，红色空心圆
           data[i][1] = '心率：' + data[i][1] + ' 次/分'
+          dataTips = overlappingPoints.map(item => item[1]).join('\n')
           this.addSvgElement(svg, 'circle', {
             class: 'point',
-            'data-tip': data[i],
+            'data-tip': [data[i][0], dataTips, data[i][2], data[i][3]],
             cx: centerX,
             cy: centerY,
             r: pointSize,
@@ -350,9 +358,10 @@ class TemperatureChart {
           break;
         case '脉搏': // 脉搏，红色实心圆
         data[i][1] = '脉搏：' + data[i][1] + ' 次/分'
+        dataTips = overlappingPoints.map(item => item[1]).join('\n')
         this.addSvgElement(svg, 'circle', {
             class: 'point',
-            'data-tip': data[i],
+            'data-tip': [data[i][0], dataTips, data[i][2], data[i][3]],
             cx: centerX,
             cy: centerY,
             r: pointSize,
