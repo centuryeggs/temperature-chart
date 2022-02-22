@@ -1,30 +1,85 @@
 class TemperatureChart {
   constructor (rootNode, originData) {
+    this.defaultData = {
+      title: '体温单',
+      baseInfo: [
+        { label: '姓名', value: '' },
+        { label: '年龄', value: '' },
+        { label: '科别', value: '' },
+        { label: '床号', value: '' },
+        { label: '住院病历号', value: '' },
+        { label: '入院日期', value: '' }
+      ],
+      tableHeadData: [
+        { '日期': ['', '', '', '', '', '', ''] },
+        { '住院日数': ['', '', '', '', '', '', ''] },
+        { '手术或产后日数': ['', '', '', '', '', '', ''] }
+      ],
+      tableFootData: [
+        { '呼吸(次/分)': [
+          ['','','','','',''],
+          ['','','','','',''],
+          ['','','','','',''],
+          ['','','','','',''],
+          ['','','','','',''],
+          ['','','','','',''],
+          ['','','','','','']
+        ]},
+        { '血压(mmHg)': [
+          ['', ''],
+          ['', ''],
+          ['', ''],
+          ['', ''],
+          ['', ''],
+          ['', ''],
+          ['', ''],
+        ] },
+        { '总入液量(ml)': ['', '', '', '', '', '', ''] },
+        { '大便(次)': ['', '', '', '', '', '', ''] },
+        { '尿量(ml)': ['', '', '', '', '', '', ''] },
+        { '其它排出量': ['', '', '', '', '', '', ''] },
+        { '体重(kg)': ['', '', '', '', '', '', ''] },
+        { '皮试': ['', '', '', '', '', '', ''] },
+        { '血糖(mmol/L)': ['', '', '', '', '', '', ''] },
+        { '其它': ['', '', '', '', '', '', ''] }
+      ],
+      mouthTemperature: [],
+      armpitTemperature: [],
+      anusTemperature: [],
+      pulseFrequency: [],
+      heartFrequency: [],
+      textRemarks: []
+    }
+    originData = originData || this.defaultData
     this.svgWidth = 630
     this.svgHeight = 600
-    this.title = originData.title
-    this.baseInfo = originData.baseInfo
-    this.tableHeadData = originData.tableHeadData
-    this.tableFootData = originData.tableFootData
-    this.startDate = new Date(originData.tableHeadData[0]['日期'][0] + ' 00:00:00')
-    this.mouthLineData = originData.mouthTemperature.map(i => {
-      return [i[0], i[1], this.timeToX(i[0]), this.temperatureToY(i[1])]
-    })
-    this.armpitLineData = originData.armpitTemperature.map(i => {
-      return [i[0], i[1], this.timeToX(i[0]), this.temperatureToY(i[1])]
-    })
-    this.anusLineData = originData.anusTemperature.map(i => {
-      return [i[0], i[1], this.timeToX(i[0]), this.temperatureToY(i[1])]
-    })
-    this.pulseLineData = originData.pulseFrequency.map(i => {
-      return [i[0], i[1], this.timeToX(i[0]), this.frequencyToY(i[1])]
-    })
-    this.heartLineData = originData.heartFrequency.map(i => {
-      return [i[0], i[1], this.timeToX(i[0]), this.frequencyToY(i[1])]
-    })
-    this.textData = originData.textRemarks.map(i => {
-      return [this.timeToX(i[0]), i[1]]
-    })
+    this.title = originData && originData.title || '体温单'
+    this.baseInfo = originData && originData.baseInfo || []
+    this.tableHeadData = originData && originData.tableHeadData || []
+    this.tableFootData = originData && originData.tableFootData || []
+    this.startDate = originData && new Date(originData.tableHeadData[0]['日期'][0] + ' 00:00:00')
+    if (this.startDate) {
+      this.mouthLineData = originData.mouthTemperature.map(i => {
+        return [i[0], i[1], this.timeToX(i[0]), this.temperatureToY(i[1])]
+      })
+      this.armpitLineData = originData.armpitTemperature.map(i => {
+        return [i[0], i[1], this.timeToX(i[0]), this.temperatureToY(i[1])]
+      })
+      this.anusLineData = originData.anusTemperature.map(i => {
+        return [i[0], i[1], this.timeToX(i[0]), this.temperatureToY(i[1])]
+      })
+      this.pulseLineData = originData.pulseFrequency.map(i => {
+        return [i[0], i[1], this.timeToX(i[0]), this.frequencyToY(i[1])]
+      })
+      this.heartLineData = originData.heartFrequency.map(i => {
+        return [i[0], i[1], this.timeToX(i[0]), this.frequencyToY(i[1])]
+      })
+      this.textData = originData.textRemarks.map(i => {
+        return [this.timeToX(i[0]), i[1]]
+      })
+    } else {
+      console.error("tableHeadData[0]['日期'][0],不是一个有效的日期(YYYY-MM-DD")
+    }
     this.pointsInfo = []
     this.container = document.createElement('div')
     this.container.classList.add('container')
