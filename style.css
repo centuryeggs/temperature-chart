@@ -183,14 +183,17 @@ body {
 }
 .y-axis {
   position: relative;
+  justify-content: end;
 }
 .icons {
   position: absolute;
   bottom: 0;
   left: 0;
 }
+.icon {
+  cursor: pointer;
+}
 .pulse {
-  flex: 1;
   height: 100%;
   border-right: 1px solid #000;
   text-align: right;
