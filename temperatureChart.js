@@ -102,7 +102,8 @@ class TemperatureChart {
     this.createPagination()
   }
   // 销毁
-  destroy () {
+  destory () {
+    this.pointsInfo = []
     this.container.remove()
   }
   // 添加标题
@@ -540,7 +541,7 @@ class TemperatureChart {
   }
   // 数据变更
   update (newData) {
-    this.destroy()
+    this.destory()
     this.init(newData)
   }
 }

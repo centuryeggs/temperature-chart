@@ -2,14 +2,14 @@
   box-sizing: border-box;
 }
 html, body {
-  padding: 0;
+  padding: 0; 
   margin: 0;
   font-size: 12px;
   font-weight: 400;
 }
 body {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: flex-start;
 }
 #A4 {
