@@ -50,9 +50,18 @@ class TemperatureChart {
       heartFrequency: [],
       textRemarks: []
     }
-    originData = originData || this.defaultData
     this.svgWidth = 630
     this.svgHeight = 600
+    this.pointsInfo = []
+    this.rootNode = rootNode
+    this.init(originData)
+  }
+  // 初始化
+  init (originData) {
+    this.container = document.createElement('div')
+    this.container.classList.add('container')
+    this.rootNode.appendChild(this.container)
+    originData = originData || this.defaultData
     this.title = originData && originData.title || '体温单'
     this.baseInfo = originData && originData.baseInfo || []
     this.tableHeadData = originData && originData.tableHeadData || []
@@ -80,18 +89,14 @@ class TemperatureChart {
     } else {
       console.error("tableHeadData[0]['日期'][0],不是一个有效的日期(YYYY-MM-DD")
     }
-    this.pointsInfo = []
-    this.container = document.createElement('div')
-    this.container.classList.add('container')
-    rootNode.appendChild(this.container)
-    this.init()
-  }
-  // 初始化
-  init () {
     this.createTitle()
     this.createHeadForm()
     this.createMainTable()
     this.createPagination()
+  }
+  // 销毁
+  destroy () {
+    this.container.remove()
   }
   // 添加标题
   createTitle () {
@@ -485,7 +490,8 @@ class TemperatureChart {
     this.container.appendChild(pagination)
   }
   // 数据变更
-  update (text) {
-    console.log(text)
+  update (newData) {
+    this.destroy()
+    this.init(newData)
   }
 }
