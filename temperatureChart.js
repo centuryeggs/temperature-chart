@@ -1,11 +1,18 @@
 class TemperatureChart {
   constructor (rootNode, originData) {
     this.typeMapping = {
-      '口表': 'mouth',
-      '腋表': 'armpit',
-      '肛表': 'anus',
-      '心率': 'heart',
-      '脉搏': 'pulse'
+      mouth: '口表',
+      armpit: '腋表',
+      anus: '肛表',
+      heart: '心率',
+      pulse: '脉搏'
+    }
+    this.unitMapping = {
+      mouth: '°C',
+      armpit: '°C',
+      anus: '°C',
+      heart: '次/分',
+      pulse: '次/分'
     }
     this.defaultData = {
       title: '体温单',
@@ -201,12 +208,12 @@ class TemperatureChart {
     <div class="row">
       <div class="label cell y-axis">
         <div class="icons">
-          <div class="icon">口表
+          <div class="icon" data-label="mouth">口表
             <svg width="10" height="10">
               <circle r="5" cx="5" cy="5" />
             </svg>
           </div>
-          <div class="icon">腋表
+          <div class="icon" data-label="armpit">腋表
             <svg width="10" height="10">
               <g stroke="blue" stroke-width="2">
                 <line x1="0" y1="0" x2="10" y2="10" />
@@ -214,20 +221,20 @@ class TemperatureChart {
               </g>
             </svg>
           </div>
-          <div class="icon">肛表
+          <div class="icon" data-label="anus">肛表
             <svg width="10" height="10">
               <circle r="5" cx="5" cy="5" />
               <circle r="3.8" cx="5" cy="5" fill="#fff" />
             </svg>
           </div>
-          <div class="icon">心率
+          <div class="icon" data-label="heart">心率
             <svg width="10" height="10">
               <circle r="5" cx="5" cy="5" />
               <circle r="5" cx="5" cy="5" fill="red" />
               <circle r="3.8" cx="5" cy="5" fill="#fff" />
             </svg>
           </div>
-          <div class="icon">脉搏
+          <div class="icon" data-label="pulse">脉搏
             <svg width="10" height="10">
               <circle r="5" cx="5" cy="5" fill="red" />
             </svg>
@@ -282,11 +289,13 @@ class TemperatureChart {
     this.drawPolyline(svg, this.anusLineData, 'anus')
     this.drawPolyline(svg, this.heartLineData, 'heart')
     this.drawPolyline(svg, this.pulseLineData, 'pulse')
-    this.drawPoints(svg, this.mouthLineData, 'mouth')
-    this.drawPoints(svg, this.armpitLineData, 'armpit')
-    this.drawPoints(svg, this.anusLineData, 'anus')
-    this.drawPoints(svg, this.heartLineData, 'heart')
-    this.drawPoints(svg, this.pulseLineData, 'pulse')
+    this.handlePointsData(svg, {
+      mouth: this.mouthLineData,
+      armpit: this.armpitLineData,
+      anus: this.anusLineData,
+      heart: this.heartLineData,
+      pulse: this.pulseLineData
+    })
   }
   // 绘制网格
   drawGrid (svg) {
@@ -375,27 +384,56 @@ class TemperatureChart {
     } else {
       dom.style.textDecoration = 'line-through red'
     }
-    let type = this.typeMapping[dom.innerText.trim()]
+    let type = dom.dataset.label.trim()
     this.container.querySelectorAll(`[data-type='${type}']`).forEach(item => {
       item.style.display = item.style.display === 'none' ? 'block' : 'none'
     })
   }
+  // 绘制点之前，对点数据进行处理：重叠点处理，和data-tip处理
+  handlePointsData (svg, data) {
+    let allPoints = []
+    Object.keys(data).forEach(key => {
+      for (let i = 0; i < data[key].length; i++) {
+        // 判断是否有重复点
+        let overlappingPointIndex = allPoints.findIndex(item => {
+          return item.tipsValue.length > 0 && item.x === data[key][i][2] && item.y === data[key][i][3]
+        })
+        if (overlappingPointIndex > -1) {
+          allPoints.push({
+            type: key,
+            time: data[key][i][0],
+            tipsValue: [...allPoints[overlappingPointIndex].tipsValue, {type: key, value: data[key][i][1]}],
+            x: data[key][i][2],
+            y: data[key][i][3]
+          })
+          allPoints[overlappingPointIndex].tipsValue = []
+        } else {
+          allPoints.push({
+            type: key,
+            time: data[key][i][0],
+            tipsValue: [{type: key, value: data[key][i][1]}],
+            x: data[key][i][2],
+            y: data[key][i][3]
+          })
+        }
+      }
+      this.drawPoints(svg, allPoints)
+    })
+  }
   // 绘制点
-  drawPoints (svg, data, type) {
-    this.pointsInfo = this.pointsInfo.concat(data)
+  drawPoints (svg, data) {
     const pointSize = 5
     for (let i = 0; i < data.length; i++) {
-      const [centerX, centerY] = [data[i][2], data[i][3]]
-      let overlappingPoints = this.pointsInfo.filter(item => item[2] === centerX && item[3] === centerY)
-      let dataTips
-      switch (type) {
+      const [centerX, centerY] = [data[i].x, data[i].y]
+      let tipsText = data[i].tipsValue.length > 0 ? data[i].tipsValue.map(p => {
+        return this.typeMapping[p.type] + ': ' + p.value + this.unitMapping[p.type]
+      }).join('\n') : ''
+      switch (data[i].type) {
         case 'mouth': // 口表，黑色实心圆
-          data[i][1] = '口表：' + data[i][1] + ' °C'
-          dataTips = overlappingPoints.map(item => item[1]).join('\n')
           this.addSvgElement(svg, 'circle', {
             class: 'point',
-            'data-type': type,
-            'data-tip': [data[i][0], dataTips, data[i][2], data[i][3]],
+            'data-type': data[i].type,
+            'data-tip': [data[i].time, tipsText, centerX, centerY],
             cx: centerX,
             cy: centerY,
             r: pointSize,
@@ -403,12 +441,10 @@ class TemperatureChart {
           })
           break
         case 'armpit': // 腋表，蓝色交叉
-          data[i][1] = '腋表：' + data[i][1] + ' °C'
-          dataTips = overlappingPoints.map(item => item[1]).join('\n')
           const diff = pointSize
           // const diff = Math.sqrt(Math.pow(pointSize, 2) / 2)
           this.addSvgElement(svg, 'line', {
-            'data-type': type,
+            'data-tip': [data[i].time, tipsText, centerX, centerY],
             x1: centerX-diff,
             y1: centerY+diff,
             x2: centerX+diff,
@@ -417,7 +453,7 @@ class TemperatureChart {
             'stroke-width': 2
           })
           this.addSvgElement(svg, 'line', {
-            'data-type': type,
+            'data-tip': [data[i].time, tipsText, centerX, centerY],
             x1: centerX+diff,
             y1: centerY+diff,
             x2: centerX-diff,
@@ -427,9 +463,9 @@ class TemperatureChart {
           })
           // 透明的hover区域
           this.addSvgElement(svg, 'circle', {
-            'data-type': type,
             class: 'point',
-            'data-tip': [data[i][0], dataTips, data[i][2], data[i][3]],
+            'data-type': data[i].type,
+            'data-tip': [data[i].time, tipsText, centerX, centerY],
             cx: centerX,
             cy: centerY,
             r: pointSize + 1,
@@ -438,12 +474,10 @@ class TemperatureChart {
           })
           break
         case 'anus': // 肛表，黑色空心圆
-          data[i][1] = '肛表：' + data[i][1] + ' °C'
-          dataTips = overlappingPoints.map(item => item[1]).join('\n')
           this.addSvgElement(svg, 'circle', {
             class: 'point',
-            'data-type': type,
-            'data-tip': [data[i][0], dataTips, data[i][2], data[i][3]],
+            'data-type': data[i].type,
+            'data-tip': [data[i].time, tipsText, centerX, centerY],
             cx: centerX,
             cy: centerY,
             r: pointSize,
@@ -452,12 +486,10 @@ class TemperatureChart {
           })
           break
         case 'heart': // 心率，红色空心圆
-          data[i][1] = '心率：' + data[i][1] + ' 次/分'
-          dataTips = overlappingPoints.map(item => item[1]).join('\n')
           this.addSvgElement(svg, 'circle', {
             class: 'point',
-            'data-type': type,
-            'data-tip': [data[i][0], dataTips, data[i][2], data[i][3]],
+            'data-type': data[i].type,
+            'data-tip': [data[i].time, tipsText, centerX, centerY],
             cx: centerX,
             cy: centerY,
             r: pointSize,
@@ -466,12 +498,10 @@ class TemperatureChart {
           })
           break;
         case 'pulse': // 脉搏，红色实心圆
-        data[i][1] = '脉搏：' + data[i][1] + ' 次/分'
-        dataTips = overlappingPoints.map(item => item[1]).join('\n')
         this.addSvgElement(svg, 'circle', {
             class: 'point',
-            'data-type': type,
-            'data-tip': [data[i][0], dataTips, data[i][2], data[i][3]],
+            'data-type': data[i].type,
+            'data-tip': [data[i].time, tipsText, centerX, centerY],
             cx: centerX,
             cy: centerY,
             r: pointSize,
@@ -507,6 +537,7 @@ class TemperatureChart {
   hoverPiont (e) {
     if (e.target.classList.contains('point')) {
       const [forwardText, backText, x, y] = e.target.dataset.tip.split(',')
+      if (!backText) return
       tooltip.innerText = `${forwardText}\n${backText}`
       tooltip.style.visibility = 'visible'
       tooltip.style.left = x + "px"
