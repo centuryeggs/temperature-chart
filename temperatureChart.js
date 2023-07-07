@@ -1,19 +1,5 @@
 class TemperatureChart {
   constructor (rootNode, originData) {
-    this.typeMapping = {
-      mouth: '口表',
-      armpit: '腋表',
-      anus: '肛表',
-      heart: '心率',
-      pulse: '脉搏'
-    }
-    this.unitMapping = {
-      mouth: '°C',
-      armpit: '°C',
-      anus: '°C',
-      heart: '次/分',
-      pulse: '次/分'
-    }
     this.defaultData = {
       title: '体温单',
       baseInfo: [
@@ -406,7 +392,7 @@ class TemperatureChart {
             x: data[key][i][2],
             y: data[key][i][3]
           })
-          allPoints[overlappingPointIndex].tipsValue = []
+          allPoints[overlappingPointIndex].tipsValue.push({type: key, value: data[key][i][1]})
         } else {
           allPoints.push({
             type: key,
@@ -425,15 +411,10 @@ class TemperatureChart {
     const pointSize = 5
     for (let i = 0; i < data.length; i++) {
       const [centerX, centerY] = [data[i].x, data[i].y]
-      let tipsText = data[i].tipsValue.length > 0 ? data[i].tipsValue.map(p => {
-        return this.typeMapping[p.type] + ': ' + p.value + this.unitMapping[p.type]
-      }).join('\n') : ''
       switch (data[i].type) {
         case 'mouth': // 口表，黑色实心圆
           this.addSvgElement(svg, 'circle', {
-            class: 'point',
             'data-type': data[i].type,
-            'data-tip': [data[i].time, tipsText, centerX, centerY],
             cx: centerX,
             cy: centerY,
             r: pointSize,
@@ -444,7 +425,7 @@ class TemperatureChart {
           const diff = pointSize
           // const diff = Math.sqrt(Math.pow(pointSize, 2) / 2)
           this.addSvgElement(svg, 'line', {
-            'data-tip': [data[i].time, tipsText, centerX, centerY],
+            'data-type': data[i].type,
             x1: centerX-diff,
             y1: centerY+diff,
             x2: centerX+diff,
@@ -453,7 +434,7 @@ class TemperatureChart {
             'stroke-width': 2
           })
           this.addSvgElement(svg, 'line', {
-            'data-tip': [data[i].time, tipsText, centerX, centerY],
+            'data-type': data[i].type,
             x1: centerX+diff,
             y1: centerY+diff,
             x2: centerX-diff,
@@ -461,23 +442,10 @@ class TemperatureChart {
             stroke: 'blue',
             'stroke-width': 2
           })
-          // 透明的hover区域
-          this.addSvgElement(svg, 'circle', {
-            class: 'point',
-            'data-type': data[i].type,
-            'data-tip': [data[i].time, tipsText, centerX, centerY],
-            cx: centerX,
-            cy: centerY,
-            r: pointSize + 1,
-            fill: 'transparent',
-            stroke: 'transparent'
-          })
           break
         case 'anus': // 肛表，黑色空心圆
           this.addSvgElement(svg, 'circle', {
-            class: 'point',
             'data-type': data[i].type,
-            'data-tip': [data[i].time, tipsText, centerX, centerY],
             cx: centerX,
             cy: centerY,
             r: pointSize,
@@ -487,9 +455,7 @@ class TemperatureChart {
           break
         case 'heart': // 心率，红色空心圆
           this.addSvgElement(svg, 'circle', {
-            class: 'point',
             'data-type': data[i].type,
-            'data-tip': [data[i].time, tipsText, centerX, centerY],
             cx: centerX,
             cy: centerY,
             r: pointSize,
@@ -499,9 +465,7 @@ class TemperatureChart {
           break;
         case 'pulse': // 脉搏，红色实心圆
         this.addSvgElement(svg, 'circle', {
-            class: 'point',
             'data-type': data[i].type,
-            'data-tip': [data[i].time, tipsText, centerX, centerY],
             cx: centerX,
             cy: centerY,
             r: pointSize,
@@ -510,6 +474,17 @@ class TemperatureChart {
         default:
           break
       }
+      // 透明的hover区域
+      this.addSvgElement(svg, 'circle', {
+        class: 'point',
+        'data-type': data[i].type,
+        'data-tip': JSON.stringify([data[i].time, data[i].tipsValue, centerX, centerY]),
+        cx: centerX,
+        cy: centerY,
+        r: pointSize + 1,
+        fill: 'transparent',
+        stroke: 'transparent'
+      })
     }
   }
   // 绘制文字说明
@@ -536,9 +511,34 @@ class TemperatureChart {
   // hoverPoint时显示坐标信息
   hoverPiont (e) {
     if (e.target.classList.contains('point')) {
-      const [forwardText, backText, x, y] = e.target.dataset.tip.split(',')
-      if (!backText) return
-      tooltip.innerText = `${forwardText}\n${backText}`
+      const [time, tipsArr, x, y] = JSON.parse(e.target.dataset.tip)
+      if (tipsArr.length === 0) return
+
+      let hiddenTypes = []
+      document.querySelectorAll('.icon').forEach(item => {
+        if (item.style.textDecoration === 'line-through red') {
+          hiddenTypes.push(item.dataset.label.trim())
+        }
+      })
+      let showTipsArr = tipsArr.filter(i => !hiddenTypes.includes(i.type))
+      let showTipsStr = showTipsArr.map(p => {
+        const typeMapping = {
+          mouth: '口表',
+          armpit: '腋表',
+          anus: '肛表',
+          heart: '心率',
+          pulse: '脉搏'
+        }
+        const unitMapping = {
+          mouth: '°C',
+          armpit: '°C',
+          anus: '°C',
+          heart: '次/分',
+          pulse: '次/分'
+        }
+        return typeMapping[p.type] + ': ' + p.value + unitMapping[p.type]
+      }).join('\n')
+      tooltip.innerText = `${time}\n${showTipsStr}`
       tooltip.style.visibility = 'visible'
       tooltip.style.left = x + "px"
       tooltip.style.top = y - 13 + "px"
